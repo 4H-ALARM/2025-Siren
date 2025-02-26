@@ -18,6 +18,12 @@ public class RobotConstants {
     public static final int climberMotorID = 50;
   }
 
+  public static class GroundIntakeConstants {
+
+    public static final int groundIntakeTiltMotorID = 1; // TODO: fix vlaue
+    public static final int groundIntakeSpinMotorID = 1; // TODO: fix value
+  }
+
   public static class EndEffectorConstants {
 
     public static int wristmotorID = 32;

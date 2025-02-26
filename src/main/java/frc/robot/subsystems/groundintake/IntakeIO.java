@@ -13,5 +13,11 @@ public interface IntakeIO {
     public Rotation2d armAngle = new Rotation2d();
   }
 
+  public Rotation2d getGIAngle();
+
+  public void setAngle(Rotation2d angle);
+
+  public void setSpeed(double speed);
+
   public default void updateInputs(IntakeIOInputs inputs) {}
 }

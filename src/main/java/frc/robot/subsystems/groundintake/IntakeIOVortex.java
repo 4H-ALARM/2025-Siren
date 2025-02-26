@@ -4,10 +4,16 @@
 
 package frc.robot.subsystems.groundintake;
 
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.lib.constants.RobotConstants.GroundIntakeConstants;
 import frc.robot.subsystems.groundintake.IntakeIO.IntakeIOInputs;
 
 /** Add your docs here. */
@@ -15,6 +21,7 @@ public class IntakeIOVortex implements IntakeIO {
 
   private final SparkFlex tiltMotor;
   private final SparkFlex spinMotor;
+  private final AbsoluteEncoder encoder;
 
   private final SparkClosedLoopController tiltController;
 
@@ -24,21 +31,42 @@ public class IntakeIOVortex implements IntakeIO {
 
   public IntakeIOVortex() {
     tiltMotor =
-        new SparkFlex(IntakeConstants.tiltMotorID, MotorType.fromId(IntakeConstants.tiltMotorID));
+        new SparkFlex(
+            GroundIntakeConstants.groundIntakeTiltMotorID,
+            MotorType.fromId(GroundIntakeConstants.groundIntakeTiltMotorID));
     spinMotor =
-        new SparkFlex(IntakeConstants.spinMotorID, MotorType.fromId(IntakeConstants.spinMotorID));
+        new SparkFlex(
+            GroundIntakeConstants.groundIntakeSpinMotorID,
+            MotorType.fromId(GroundIntakeConstants.groundIntakeSpinMotorID));
 
+    SparkFlexConfig config = new SparkFlexConfig();
+
+    config
+        .closedLoop
+        .pid(0, 0, 0)
+        .maxOutput(0)
+        .minOutput(0)
+        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+
+    encoder = tiltMotor.getAbsoluteEncoder();
     tiltController = tiltMotor.getClosedLoopController();
   }
 
   @Override
-  public void updateInputs(IntakeIOInputs inputs) {
-    // Refresh all signals
-    var tiltMotorStatus = true;
-    var spinMotorStatus =
-        true; // BaseStatusSignal.refreshAll(turnPosition, turnVelocity, turnAppliedVolts,
-    // turnCurrent);
-
-    inputs.tiltMotorConnected = tiltConnectedDebounce.calculate(tiltMotorStatus);
+  public Rotation2d getGIAngle() {
+    return Rotation2d.fromRotations(encoder.getPosition());
   }
+
+  @Override
+  public void setAngle(Rotation2d angle) {
+    tiltController.setReference(angle.getRotations(), ControlType.kPosition);
+  }
+
+  @Override
+  public void setSpeed(double speed) {
+    spinMotor.set(speed);
+  }
+
+  @Override
+  public void updateInputs(IntakeIOInputs inputs) {}
 }
