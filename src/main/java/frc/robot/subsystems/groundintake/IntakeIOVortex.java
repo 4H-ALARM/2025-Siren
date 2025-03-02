@@ -4,14 +4,12 @@
 
 package frc.robot.subsystems.groundintake;
 
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkClosedLoopController;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.lib.constants.RobotConstants.GroundIntakeConstants;
 import frc.robot.subsystems.groundintake.IntakeIO.IntakeIOInputs;
@@ -19,21 +17,13 @@ import frc.robot.subsystems.groundintake.IntakeIO.IntakeIOInputs;
 /** Add your docs here. */
 public class IntakeIOVortex implements IntakeIO {
 
-  private final SparkFlex tiltMotor;
+  private final TalonFX tiltMotor;
   private final SparkFlex spinMotor;
-  private final AbsoluteEncoder encoder;
 
-  private final SparkClosedLoopController tiltController;
-
-  // Connection debouncers
-  private final Debouncer tiltConnectedDebounce = new Debouncer(0.5);
-  private final Debouncer spinConnectedDebounce = new Debouncer(0.5);
+  private PositionVoltage positionVoltage = new PositionVoltage(0.0);
 
   public IntakeIOVortex() {
-    tiltMotor =
-        new SparkFlex(
-            GroundIntakeConstants.groundIntakeTiltMotorID,
-            MotorType.fromId(GroundIntakeConstants.groundIntakeTiltMotorID));
+    tiltMotor = new TalonFX(GroundIntakeConstants.groundIntakeTiltMotorID);
     spinMotor =
         new SparkFlex(
             GroundIntakeConstants.groundIntakeSpinMotorID,
@@ -41,25 +31,25 @@ public class IntakeIOVortex implements IntakeIO {
 
     SparkFlexConfig config = new SparkFlexConfig();
 
-    config
-        .closedLoop
-        .pid(0, 0, 0)
-        .maxOutput(0)
-        .minOutput(0)
-        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+    config.closedLoop.pid(0, 0, 0).maxOutput(0).minOutput(0);
 
-    encoder = tiltMotor.getAbsoluteEncoder();
-    tiltController = tiltMotor.getClosedLoopController();
+    var slot0Configs = new Slot0Configs();
+    slot0Configs.kP = 1;
+    slot0Configs.kI = 0;
+    slot0Configs.kD = 0;
+
+    tiltMotor.getConfigurator().apply(slot0Configs);
   }
 
   @Override
   public Rotation2d getGIAngle() {
-    return Rotation2d.fromRotations(encoder.getPosition());
+    return Rotation2d.fromRotations(tiltMotor.getPosition().getValueAsDouble());
   }
 
   @Override
   public void setAngle(Rotation2d angle) {
-    tiltController.setReference(angle.getRotations(), ControlType.kPosition);
+    positionVoltage.Position = angle.getRotations();
+    tiltMotor.setControl(positionVoltage.withEnableFOC(true));
   }
 
   @Override

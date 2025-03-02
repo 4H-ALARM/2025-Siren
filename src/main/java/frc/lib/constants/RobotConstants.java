@@ -58,6 +58,16 @@ public class RobotConstants {
     }
   }
 
+  public static class intakeConstants {
+
+    public static final int tiltMotorID = 1;
+    public static final int spinMotorID = 2;
+
+    public static final Rotation2d inactiveAngle = Rotation2d.fromDegrees(0);
+    public static final Rotation2d activeAngle = Rotation2d.fromDegrees(0);
+    public static final Rotation2d holdAngle = Rotation2d.fromDegrees(0);
+  }
+
   public static class ElevatorConstants {
     public static final int leadMotorID = 30;
     public static final int followerMotorID = 31;

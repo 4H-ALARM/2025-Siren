@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.groundintake;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GroundIntake extends SubsystemBase {
@@ -12,6 +13,15 @@ public class GroundIntake extends SubsystemBase {
 
   /** Creates a new GroundIntake. */
   public GroundIntake() {}
+
+  public void setAngle(Rotation2d angle) {
+    this.intake.setAngle(angle);
+  }
+
+  public void stopMotor() {
+    this.intake.setSpeed(0);
+    ;
+  }
 
   @Override
   public void periodic() {
