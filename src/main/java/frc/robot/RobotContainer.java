@@ -294,7 +294,7 @@ public class RobotContainer {
     // null)));
 
     // controller.rightTrigger().whileTrue(AutoBuilder.followPath(path));
-    // controller.rightTrigger().whileTrue(toOrigin);
+    controller.rightTrigger().whileTrue(toOrigin);
   }
 
   /**

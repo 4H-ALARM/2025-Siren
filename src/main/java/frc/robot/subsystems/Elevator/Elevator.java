@@ -5,8 +5,10 @@
 package frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -74,18 +76,18 @@ public class Elevator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // if (profileTimer.isRunning()) {
-    //   elevator.moveToPoint(
-    //       Rotation2d.fromRotations(
-    //           profile.calculate(
-    //                       profileTimer.getTimestamp(),
-    //                       new State(
-    //                           this.elevator.getEncoder().getPosition(),
-    //                           this.elevator.getEncoder().getVelocity()),
-    //                       new State(this.state.getTargetRotation2d().getRotations(), 0))
-    //                   .position
-    //               + feedforward.calculate(elevator.getEncoder().getVelocity())));
-    // }
+    if (profileTimer.isRunning()) {
+      elevator.moveToPoint(
+          Rotation2d.fromRotations(
+              profile.calculate(
+                          profileTimer.getTimestamp(),
+                          new State(
+                              this.elevator.getEncoder().getPosition(),
+                              this.elevator.getEncoder().getVelocity()),
+                          new State(this.state.getTargetRotation2d().getRotations(), 0))
+                      .position
+                  + feedforward.calculate(elevator.getEncoder().getVelocity())));
+    }
     Logger.recordOutput("elevator/dio", output.get());
     elevator.updateInputs(elevatorinputs);
   }
