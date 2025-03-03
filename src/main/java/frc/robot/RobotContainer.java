@@ -31,13 +31,16 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.constants.SwerveConstants;
+import frc.robot.commands.CommandGroups.IntakeFull;
+import frc.robot.commands.CommandGroups.dealgify;
+import frc.robot.commands.CommandGroups.scorel2;
+import frc.robot.commands.CommandGroups.scorel3;
+import frc.robot.commands.CommandGroups.scorel4;
 import frc.robot.commands.Drive.DriveCommands;
+import frc.robot.commands.Drive.PathOnTheFlyToPose;
 import frc.robot.commands.EndEffector.OutakeClaw;
-import frc.robot.commands.commandgroups.IntakeFull;
-import frc.robot.commands.commandgroups.dealgify;
-import frc.robot.commands.commandgroups.scorel2;
-import frc.robot.commands.commandgroups.scorel3;
-import frc.robot.commands.commandgroups.scorel4;
+import frc.robot.subsystems.Elevator.Elevator;
+import frc.robot.subsystems.Elevator.ElevatorIONeo;
 import frc.robot.subsystems.claw.ClawIOVortex;
 import frc.robot.subsystems.claw.EndEffector;
 import frc.robot.subsystems.claw.WristIONeo;
@@ -49,8 +52,6 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.elevator.Elevator;
-import frc.robot.subsystems.elevator.ElevatorIONeo;
 import frc.robot.subsystems.vision.Vision;
 import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -105,6 +106,7 @@ public class RobotContainer {
   public final scorel4 l4command;
   public final dealgify dealgifycommand;
   public final OutakeClaw drop;
+  public final PathOnTheFlyToPose toOrigin;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -141,6 +143,7 @@ public class RobotContainer {
         l4command = new scorel4(elevator, endEffector);
         dealgifycommand = new dealgify(elevator, endEffector);
         drop = new OutakeClaw(endEffector);
+        toOrigin = new PathOnTheFlyToPose(drive, new Pose2d());
 
         break;
 
@@ -174,6 +177,8 @@ public class RobotContainer {
         l4command = new scorel4(elevator, endEffector);
         dealgifycommand = new dealgify(elevator, endEffector);
         drop = new OutakeClaw(endEffector);
+        toOrigin = new PathOnTheFlyToPose(drive, new Pose2d());
+
         break;
 
       default:
@@ -209,6 +214,7 @@ public class RobotContainer {
         l4command = new scorel4(elevator, endEffector);
         dealgifycommand = new dealgify(elevator, endEffector);
         drop = new OutakeClaw(endEffector);
+        toOrigin = new PathOnTheFlyToPose(drive, new Pose2d());
 
         break;
     }
@@ -251,9 +257,9 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> (controller.getLeftY() * cappedreduction),
-            () -> (controller.getLeftX() * cappedreduction),
-            () -> (controller.getRightX() * cappedreduction)));
+            () -> (-controller.getLeftY()),
+            () -> (-controller.getLeftX()),
+            () -> (-controller.getRightX())));
 
     elevator.setDefaultCommand(
         new InstantCommand(() -> elevator.moveElevator(copilot.getLeftY()), elevator));
@@ -276,11 +282,11 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    // controller.leftTrigger().onTrue(intakecommand);
-    // controller.leftBumper().onTrue(l2command);
-    // controller.x().onTrue(l3command);
-    // controller.a().onTrue(l4command);
-    // controller.rightBumper().onTrue(drop.withTimeout(1));
+    controller.leftTrigger().onTrue(intakecommand);
+    controller.leftBumper().onTrue(l2command);
+    controller.x().onTrue(l3command);
+    controller.a().onTrue(l4command);
+    controller.rightBumper().onTrue(drop.withTimeout(1));
     // controller
     //     .rightTrigger()
     //     .whileTrue(
@@ -288,7 +294,7 @@ public class RobotContainer {
     // null)));
 
     // controller.rightTrigger().whileTrue(AutoBuilder.followPath(path));
-    controller.rightTrigger().whileTrue(DriveCommands.PathToOrigin());
+    // controller.rightTrigger().whileTrue(toOrigin);
   }
 
   /**
