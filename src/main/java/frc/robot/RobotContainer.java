@@ -39,8 +39,8 @@ import frc.robot.commands.CommandGroups.scorel4;
 import frc.robot.commands.Drive.DriveCommands;
 import frc.robot.commands.Drive.PathOnTheFlyToPose;
 import frc.robot.commands.EndEffector.OutakeClaw;
-import frc.robot.subsystems.Elevator.Elevator;
-import frc.robot.subsystems.Elevator.ElevatorIONeo;
+import frc.robot.commands.GroundIntakeCommands.GroundIntakeIntake;
+import frc.robot.commands.GroundIntakeCommands.GroundIntakeStatic;
 import frc.robot.subsystems.claw.ClawIOVortex;
 import frc.robot.subsystems.claw.EndEffector;
 import frc.robot.subsystems.claw.WristIONeo;
@@ -52,6 +52,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIONeo;
+import frc.robot.subsystems.groundintake.GroundIntake;
+import frc.robot.subsystems.groundintake.GroundIntakeIOFalconVortex;
 import frc.robot.subsystems.vision.Vision;
 import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -73,6 +77,8 @@ public class RobotContainer {
   private final EndEffector endEffector;
 
   private final Climber climber;
+
+  private final GroundIntake groundIntake;
 
   List<Waypoint> waypoints =
       PathPlannerPath.waypointsFromPoses(
@@ -107,6 +113,8 @@ public class RobotContainer {
   public final dealgify dealgifycommand;
   public final OutakeClaw drop;
   public final PathOnTheFlyToPose toOrigin;
+  public final GroundIntakeStatic groundIntakeStatic;
+  public final GroundIntakeIntake groundIntakeIntake;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -137,6 +145,8 @@ public class RobotContainer {
 
         endEffector = new EndEffector(new ClawIOVortex(), new WristIONeo());
 
+        groundIntake = new GroundIntake(new GroundIntakeIOFalconVortex());
+
         intakecommand = new IntakeFull(elevator, endEffector);
         l2command = new scorel2(elevator, endEffector);
         l3command = new scorel3(elevator, endEffector);
@@ -144,6 +154,8 @@ public class RobotContainer {
         dealgifycommand = new dealgify(elevator, endEffector);
         drop = new OutakeClaw(endEffector);
         toOrigin = new PathOnTheFlyToPose(drive, new Pose2d());
+        groundIntakeStatic = new GroundIntakeStatic(groundIntake);
+        groundIntakeIntake = new GroundIntakeIntake(groundIntake);
 
         break;
 
@@ -168,7 +180,7 @@ public class RobotContainer {
 
         endEffector = new EndEffector(new ClawIOVortex(), new WristIONeo());
         elevator = new Elevator(new ElevatorIONeo());
-
+        groundIntake = new GroundIntake(new GroundIntakeIOFalconVortex());
         climber = new Climber(new ClimberIOKraken());
 
         intakecommand = new IntakeFull(elevator, endEffector);
@@ -178,6 +190,8 @@ public class RobotContainer {
         dealgifycommand = new dealgify(elevator, endEffector);
         drop = new OutakeClaw(endEffector);
         toOrigin = new PathOnTheFlyToPose(drive, new Pose2d());
+        groundIntakeStatic = new GroundIntakeStatic(groundIntake);
+        groundIntakeIntake = new GroundIntakeIntake(groundIntake);
 
         break;
 
@@ -208,6 +222,8 @@ public class RobotContainer {
 
         climber = new Climber(new ClimberIOKraken());
 
+        groundIntake = new GroundIntake(new GroundIntakeIOFalconVortex());
+
         intakecommand = new IntakeFull(elevator, endEffector);
         l2command = new scorel2(elevator, endEffector);
         l3command = new scorel3(elevator, endEffector);
@@ -215,6 +231,8 @@ public class RobotContainer {
         dealgifycommand = new dealgify(elevator, endEffector);
         drop = new OutakeClaw(endEffector);
         toOrigin = new PathOnTheFlyToPose(drive, new Pose2d());
+        groundIntakeStatic = new GroundIntakeStatic(groundIntake);
+        groundIntakeIntake = new GroundIntakeIntake(groundIntake);
 
         break;
     }
@@ -261,8 +279,8 @@ public class RobotContainer {
             () -> (-controller.getLeftX()),
             () -> (-controller.getRightX())));
 
-    elevator.setDefaultCommand(
-        new InstantCommand(() -> elevator.moveElevator(copilot.getLeftY()), elevator));
+    // elevator.setDefaultCommand(
+    //     new InstantCommand(() -> elevator.moveElevator(copilot.getLeftY()), elevator));
 
     // climber.setDefaultCommand(
     //     new InstantCommand(() -> climber.driveClimber(copilot.getLeftY()), climber));
@@ -282,11 +300,11 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.leftTrigger().onTrue(intakecommand);
-    controller.leftBumper().onTrue(l2command);
-    controller.x().onTrue(l3command);
-    controller.a().onTrue(l4command);
-    controller.rightBumper().onTrue(drop.withTimeout(1));
+    // controller.leftTrigger().onTrue(intakecommand);
+    // controller.leftBumper().onTrue(l2command);
+    // controller.x().onTrue(l3command);
+    // controller.a().onTrue(l4command);
+    // controller.rightBumper().onTrue(drop.withTimeout(1));
     // controller
     //     .rightTrigger()
     //     .whileTrue(
@@ -294,7 +312,14 @@ public class RobotContainer {
     // null)));
 
     // controller.rightTrigger().whileTrue(AutoBuilder.followPath(path));
-    controller.rightTrigger().whileTrue(toOrigin);
+    // controller.rightTrigger().whileTrue(toOrigin);
+
+    groundIntake.setDefaultCommand(
+        new InstantCommand(() -> groundIntake.moveAngle(copilot.getLeftY()), groundIntake));
+
+    copilot.a().onTrue(new InstantCommand(() -> groundIntake.resetEncoder()));
+    copilot.x().whileTrue(groundIntakeStatic);
+    copilot.b().whileTrue(groundIntakeIntake);
   }
 
   /**

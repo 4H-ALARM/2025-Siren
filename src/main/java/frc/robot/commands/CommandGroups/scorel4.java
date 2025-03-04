@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ElevatorCommands.elevatorSetHeightL4;
 import frc.robot.commands.EndEffector.IntakeClaw;
 import frc.robot.commands.EndEffector.L4Wrist;
-import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.claw.EndEffector;
+import frc.robot.subsystems.elevator.Elevator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
