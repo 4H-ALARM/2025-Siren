@@ -57,6 +57,8 @@ import frc.robot.subsystems.elevator.ElevatorIONeo;
 import frc.robot.subsystems.groundintake.GroundIntake;
 import frc.robot.subsystems.groundintake.GroundIntakeIOFalconVortex;
 import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIOPhotonVision;
+import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -131,9 +133,9 @@ public class RobotContainer {
 
         vision =
             new Vision(
-                drive::addVisionMeasurement // ,
-                // new VisionIOPhotonVision(camera1Name, robotToCamera1),
-                // new VisionIOPhotonVision(camera2Name, robotToCamera2),
+                drive::addVisionMeasurement,
+                new VisionIOPhotonVision(camera1Name, robotToCamera1),
+                new VisionIOPhotonVision(camera2Name, robotToCamera2)
                 // new VisionIOPhotonVision(camera3Name, robotToCamera3),
                 // new VisionIOPhotonVision(camera4Name, robotToCamera4),
                 // new VisionIOLimelight(limelightName, drive::getRotation)
@@ -171,12 +173,11 @@ public class RobotContainer {
 
         vision =
             new Vision(
-                drive::addVisionMeasurement // ,
-                // new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose),
-                // new VisionIOPhotonVisionSim(camera2Name, robotToCamera2, drive::getPose),
-                // new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose),
-                // new VisionIOPhotonVisionSim(camera4Name, robotToCamera4, drive::getPose)
-                );
+                drive::addVisionMeasurement,
+                new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose),
+                new VisionIOPhotonVisionSim(camera2Name, robotToCamera2, drive::getPose),
+                new VisionIOPhotonVisionSim(camera3Name, robotToCamera3, drive::getPose),
+                new VisionIOPhotonVisionSim(camera4Name, robotToCamera4, drive::getPose));
 
         endEffector = new EndEffector(new ClawIOVortex(), new WristIONeo());
         elevator = new Elevator(new ElevatorIONeo());

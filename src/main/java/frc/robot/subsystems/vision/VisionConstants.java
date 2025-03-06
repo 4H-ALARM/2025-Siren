@@ -33,7 +33,7 @@ public class VisionConstants {
 
   private static final double xMeters = Units.inchesToMeters(11.375);
   private static final double yMeters = Units.inchesToMeters(11.375);
-  private static final double zMeters = Units.inchesToMeters(9);
+  private static final double zMeters = Units.inchesToMeters(7.906);
 
   private static final double rollRadians = Units.degreesToRadians(0);
   private static final double pitchRadians = Units.degreesToRadians(-15);
@@ -45,18 +45,18 @@ public class VisionConstants {
   // front left camera
   public static Transform3d robotToCamera1 =
       new Transform3d(
-          xMeters,
-          yMeters,
-          zMeters + Units.inchesToMeters(2), // TODO
-          new Rotation3d(rollRadians, pitchRadians, Units.degreesToRadians(0)));
+          Units.inchesToMeters(11.317),
+          Units.inchesToMeters(11.292),
+          zMeters + Units.inchesToMeters(0.5), // TODO
+          new Rotation3d(rollRadians, Units.degreesToRadians(0), Units.degreesToRadians(-30)));
 
   // front right camera
   public static Transform3d robotToCamera2 =
       new Transform3d(
-          xMeters,
-          -yMeters,
-          zMeters + Units.inchesToMeters(2), // TODO
-          new Rotation3d(rollRadians, pitchRadians, Units.degreesToRadians(0)));
+          Units.inchesToMeters(11.317),
+          Units.inchesToMeters(-11.292),
+          zMeters + Units.inchesToMeters(0.5), // TODO
+          new Rotation3d(rollRadians, Units.degreesToRadians(0), Units.degreesToRadians(30)));
   // rear left camera
   public static Transform3d robotToCamera3 =
       new Transform3d(
@@ -85,8 +85,9 @@ public class VisionConstants {
   // (Adjust to trust some cameras more than others)
   public static double[] cameraStdDevFactors =
       new double[] {
-        1.0, // Camera 0
-        1.0 // Camera 1
+        0.5, // Camera 1
+        0.5, // Camera 2
+        0.8, 0.8, 0.8, 0.8
       };
 
   // Multipliers to apply for MegaTag 2 observations

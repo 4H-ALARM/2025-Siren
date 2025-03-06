@@ -13,7 +13,10 @@ import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.drive.Drive;
@@ -44,7 +47,9 @@ public class PathOnTheFlyToPose extends Command {
     this.usePathPlanner = true;
     this.constraints = PathConstraints.unlimitedConstraints(12);
     this.waypoints =
-        PathPlannerPath.waypointsFromPoses(new Pose2d(0.02, 0, new Rotation2d()), new Pose2d());
+        PathPlannerPath.waypointsFromPoses(
+            new Pose2d(new Translation2d(11.57, 4.22), Rotation2d.fromDegrees(0)),
+            new Pose2d(new Translation2d(11.71, 4.22), Rotation2d.fromDegrees(0)));
     this.pathplannerCommand = new InstantCommand();
     addRequirements(this.drive);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -56,13 +61,16 @@ public class PathOnTheFlyToPose extends Command {
     if (Math.abs(drive.getPose().getX() - this.target.getX()) > 0.5
         && Math.abs(drive.getPose().getY() - this.target.getY()) > 0.5) {
       usePathPlanner = true;
-      this.pathplannerCommand =
-          AutoBuilder.followPath(
-              new PathPlannerPath(
-                  this.waypoints,
-                  constraints,
-                  null,
-                  new GoalEndState(0, this.target.getRotation())));
+      PathPlannerPath path =
+          new PathPlannerPath(
+              this.waypoints, constraints, null, new GoalEndState(0, this.target.getRotation()));
+
+      boolean alliance = DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue;
+      if (!alliance) {
+        path = path.flipPath();
+      }
+      this.pathplannerCommand = AutoBuilder.followPath(path);
+
       this.pathplannerCommand.initialize();
       // this.waypoints =
       //     PathPlannerPath.waypointsFromPoses(
