@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.lib.constants.RobotConstants;
 import frc.lib.constants.RobotConstants.ElevatorConstants.elevatorState;
 import org.littletonrobotics.junction.Logger;
@@ -27,8 +28,8 @@ public class ElevatorIONeo implements ElevatorIO {
 
   // private final DigitalInput limitswitchBottom;
 
-  // private final DigitalInput bottomLimitSwitch;
-  // private final DigitalInput topLimitSwitch;
+  private final DigitalInput bottomLimitSwitch;
+  private final DigitalInput topLimitSwitch;
 
   private final double rotationstoInches = 0.0;
 
@@ -36,8 +37,8 @@ public class ElevatorIONeo implements ElevatorIO {
 
   public ElevatorIONeo() {
 
-    // bottomLimitSwitch = new DigitalInput(RobotConstants.ElevatorConstants.bottomlimitswitchID);
-    // topLimitSwitch = new DigitalInput(RobotConstants.ElevatorConstants.toplimitswitchID);
+    bottomLimitSwitch = new DigitalInput(4);
+    topLimitSwitch = new DigitalInput(2);
 
     leadMotor = new SparkMax(RobotConstants.ElevatorConstants.leadMotorID, MotorType.kBrushless);
     motor2 = new SparkMax(RobotConstants.ElevatorConstants.followerMotorID, MotorType.kBrushless);
@@ -78,16 +79,12 @@ public class ElevatorIONeo implements ElevatorIO {
 
   @Override
   public void moveToPoint(Rotation2d targetRot) {
-    // if (bottomLimitSwitch.get()
-    //    && targetRot.getDegrees() > Rotation2d.fromRotations(encoder.getPosition()).getDegrees())
-    // {
-    //  stopElevator();
-    // }
-    // if (topLimitSwitch.get()
-    //    && targetRot.getDegrees() < Rotation2d.fromRotations(encoder.getPosition()).getDegrees())
-    // {
-    //  stopElevator();
-    // }
+    if (bottomLimitSwitch.get()) {
+      encoder.setPosition(RobotConstants.ElevatorConstants.intakeheight.getRotations());
+    }
+    if (topLimitSwitch.get()) {
+      encoder.setPosition(RobotConstants.ElevatorConstants.L4height.getRotations());
+    }
     leadpid.setReference(targetRot.getRotations(), ControlType.kPosition);
     // pid2.setReference((-getEncoder()), ControlType.kMAXMotionPositionControl);
   }

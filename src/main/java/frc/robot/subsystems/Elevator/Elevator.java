@@ -9,11 +9,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.constants.RobotConstants.ElevatorConstants.elevatorState;
-import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
@@ -26,7 +24,6 @@ public class Elevator extends SubsystemBase {
   private TrapezoidProfile profile;
   private ElevatorFeedforward feedforward;
   private Timer profileTimer;
-  private DigitalOutput output;
 
   public Elevator(ElevatorIO elevator) {
     this.elevator = elevator;
@@ -37,8 +34,6 @@ public class Elevator extends SubsystemBase {
     feedforward = new ElevatorFeedforward(0, 0.0, 0);
     profileTimer = new Timer();
     profileTimer.start();
-
-    output = new DigitalOutput(4);
   }
 
   public void moveElevator(double input) {
@@ -88,7 +83,6 @@ public class Elevator extends SubsystemBase {
                       .position
                   + feedforward.calculate(elevator.getEncoder().getVelocity())));
     }
-    Logger.recordOutput("elevator/dio", output.get());
     elevator.updateInputs(elevatorinputs);
   }
 }

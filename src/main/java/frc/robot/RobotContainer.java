@@ -301,11 +301,11 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    // controller.leftTrigger().onTrue(intakecommand);
-    // controller.leftBumper().onTrue(l2command);
-    // controller.x().onTrue(l3command);
-    // controller.a().onTrue(l4command);
-    // controller.rightBumper().onTrue(drop.withTimeout(1));
+    controller.leftTrigger().onTrue(intakecommand);
+    controller.leftBumper().onTrue(l2command);
+    controller.x().onTrue(l3command);
+    controller.a().onTrue(l4command);
+    controller.rightBumper().onTrue(drop.withTimeout(1));
     // controller
     //     .rightTrigger()
     //     .whileTrue(

@@ -28,12 +28,12 @@ public class GroundIntakeIOFalconVortex implements GroundIntakeIO {
             .withKI(0)
             .withKD(0)
             .withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKA(0.02)
-            .withKS(0.005)
-            .withKV(0.36)
-            .withKG(0.25);
+            .withKA(0.0)
+            .withKS(0.00)
+            .withKV(0.0)
+            .withKG(0.0);
 
-    FeedbackConfigs feedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(20);
+    FeedbackConfigs feedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(60);
 
     tiltMotor = new TalonFX(51, "Drive");
     tiltMotor.setPosition(0);
