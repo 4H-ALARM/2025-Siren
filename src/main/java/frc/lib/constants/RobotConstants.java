@@ -14,14 +14,14 @@ public class RobotConstants {
     public static final double alignD = 0.01;
     public static final double maxSpeed = 15.0;
     public static final double maxAccel = 150.0;
-    public static final double translationRange = 0.05;
+    public static final double translationRange = 0.02;
 
     public static final double headingP = 0.5; // 0.125 / 22;
     public static final double headingI = 0.00000;
     public static final double headingD = 0.01;
-    public static final double maxHeadingSpeed = 2;
-    public static final double maxHeadingAccel = 100;
-    public static final double headingRange = Units.degreesToRadians(50);
+    public static final double maxHeadingSpeed = 0.8;
+    public static final double maxHeadingAccel = 8;
+    public static final double headingRange = Units.degreesToRadians(10);
   }
 
   public static class ClimberConstants {
@@ -132,6 +132,8 @@ public class RobotConstants {
       zerodeg[0],
       sixtydeg[1],
       sixtydeg[0],
+      onetwentydeg[1],
+      onetwentydeg[0],
       oneeightydeg[1],
       oneeightydeg[0],
       twofourtydeg[1],

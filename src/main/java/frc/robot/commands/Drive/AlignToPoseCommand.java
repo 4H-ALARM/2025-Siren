@@ -1,8 +1,9 @@
 package frc.robot.commands.Drive;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.constants.RobotConstants;
 import frc.robot.subsystems.drive.Drive;
@@ -21,9 +22,9 @@ public class AlignToPoseCommand extends Command {
   // private final LoggedTunableNumber headingi;
   // private final LoggedTunableNumber headingd;
 
-  private final PIDController alignXController;
-  private final PIDController alignYController;
-  private final PIDController alignHeadingController;
+  private final ProfiledPIDController alignXController;
+  private final ProfiledPIDController alignYController;
+  private final ProfiledPIDController alignHeadingController;
 
   public AlignToPoseCommand(Drive drive, Pose2d targetPose) {
     this.drive = drive;
@@ -41,30 +42,31 @@ public class AlignToPoseCommand extends Command {
     // headingd = new LoggedTunableNumber("headingd", RobotConstants.DriveConstants.headingD);
 
     alignXController =
-        new PIDController(
+        new ProfiledPIDController(
             RobotConstants.DriveConstants.alignP,
             RobotConstants.DriveConstants.alignI,
-            RobotConstants.DriveConstants.alignD // ,
-            // new TrapezoidProfile.Constraints(
-            //     RobotConstants.DriveConstants.maxSpeed, RobotConstants.DriveConstants.maxAccel)
-            );
+            RobotConstants.DriveConstants.alignD,
+            new TrapezoidProfile.Constraints(
+                RobotConstants.DriveConstants.maxSpeed, RobotConstants.DriveConstants.maxAccel));
     alignXController.setTolerance(RobotConstants.DriveConstants.translationRange);
 
     alignYController =
-        new PIDController(
+        new ProfiledPIDController(
             RobotConstants.DriveConstants.alignP,
             RobotConstants.DriveConstants.alignI,
-            RobotConstants.DriveConstants.alignD // ,
-            // new TrapezoidProfile.Constraints(
-            //     RobotConstants.DriveConstants.maxSpeed, RobotConstants.DriveConstants.maxAccel)
-            );
+            RobotConstants.DriveConstants.alignD,
+            new TrapezoidProfile.Constraints(
+                RobotConstants.DriveConstants.maxSpeed, RobotConstants.DriveConstants.maxAccel));
     alignYController.setTolerance(RobotConstants.DriveConstants.translationRange);
 
     alignHeadingController =
-        new PIDController(
+        new ProfiledPIDController(
             RobotConstants.DriveConstants.headingP,
             RobotConstants.DriveConstants.headingI,
-            RobotConstants.DriveConstants.headingD);
+            RobotConstants.DriveConstants.headingD,
+            new TrapezoidProfile.Constraints(
+                RobotConstants.DriveConstants.maxHeadingSpeed,
+                RobotConstants.DriveConstants.maxHeadingAccel));
     alignHeadingController.enableContinuousInput(-Math.PI, Math.PI);
     alignHeadingController.setTolerance(RobotConstants.DriveConstants.headingRange);
     // if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
@@ -76,6 +78,9 @@ public class AlignToPoseCommand extends Command {
   @Override
   public void initialize() {
     Logger.recordOutput("commands/targetpose", this.target);
+    this.alignXController.reset(this.drive.getPose().getX());
+    this.alignYController.reset(this.drive.getPose().getY());
+    this.alignHeadingController.reset(this.drive.getPose().getRotation().getRadians());
     // setTranslationPIDConstants(
     //     translationp.getAsDouble(), translationi.getAsDouble(), translationd.getAsDouble());
     // setHeadingPIDConstants(headingp.getAsDouble(), headingi.getAsDouble(),
@@ -123,9 +128,7 @@ public class AlignToPoseCommand extends Command {
     Logger.recordOutput("yisFinished", this.alignYController.atSetpoint());
     Logger.recordOutput("commands/targetdegrees", target.getRotation().getDegrees());
     Logger.recordOutput("commands/actualdegree", this.drive.getRotation().getDegrees());
-    if (alignXController.atSetpoint()
-        && alignYController.atSetpoint()
-        && alignHeadingController.atSetpoint()
+    if (alignXController.atGoal() && alignYController.atGoal() && alignHeadingController.atGoal()
     // && alignHeadingController.atSetpoint()
 
     // GeometryUtil.toTransform2d(this.drive.getPose())

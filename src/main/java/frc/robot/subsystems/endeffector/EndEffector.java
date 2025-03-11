@@ -9,6 +9,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.constants.RobotConstants;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
 import org.littletonrobotics.junction.Logger;
 
@@ -88,5 +89,6 @@ public class EndEffector extends SubsystemBase {
     Logger.processInputs("Endeffector/claw", clawIOInputsAutoLogged);
     this.wrist.updateInputs(this.wristIOInputsAutoLogged);
     Logger.processInputs("Endeffector/wrist", wristIOInputsAutoLogged);
+    Logger.recordOutput("CartesianPoses", RobotConstants.GeneralConstants.reefPoses);
   }
 }

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.Elevator;
+package frc.robot.subsystems.elevator;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -61,8 +61,8 @@ public class Elevator extends SubsystemBase {
     double encoderposition = elevator.getEncoder().getPosition();
     double targetposition = this.stateHandler.getState().getElevatorHeight().getRotations();
 
-    if (targetposition < (encoderposition * (1 + ElevatorConstants.closeEnoughPercent))
-        && targetposition > (encoderposition * (1 + ElevatorConstants.closeEnoughPercent))) {
+    if (targetposition < (encoderposition * (4 + ElevatorConstants.closeEnoughPercent))
+        && targetposition > (encoderposition * (4 + ElevatorConstants.closeEnoughPercent))) {
       return true;
     }
 
