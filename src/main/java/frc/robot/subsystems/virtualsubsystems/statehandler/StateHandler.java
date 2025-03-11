@@ -11,6 +11,7 @@ import frc.lib.enums.LevelEnum;
 import frc.lib.enums.TargetPose;
 import frc.lib.enums.robotStates;
 import frc.lib.util.VirtualSubsystem;
+import org.littletonrobotics.junction.Logger;
 
 public class StateHandler extends VirtualSubsystem {
   /** Creates a new StateHandler. */
@@ -20,7 +21,7 @@ public class StateHandler extends VirtualSubsystem {
 
   public StateHandler() {
     this.state = new robotstateconfig();
-    chosenlevel = LevelEnum.L2;
+    chosenlevel = LevelEnum.L4;
   }
 
   public robotstateconfig getState() {
@@ -71,5 +72,7 @@ public class StateHandler extends VirtualSubsystem {
     if (this.state.isDisabled()) {
       this.state.setDisabled(false);
     }
+
+    Logger.recordOutput("state", this.state.getElevatorHeight());
   }
 }

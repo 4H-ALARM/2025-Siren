@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.lib.constants.RobotConstants;
 import frc.lib.constants.RobotConstants.ElevatorConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class ElevatorIONeo implements ElevatorIO {
 
@@ -54,7 +55,7 @@ public class ElevatorIONeo implements ElevatorIO {
 
     motor2config = new SparkMaxConfig();
     motor2config.apply(leadConfig);
-    // motor2config.follow(leadMotor, true);
+    motor2config.follow(leadMotor, true);
     motor2.configure(motor2config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
@@ -67,6 +68,8 @@ public class ElevatorIONeo implements ElevatorIO {
     // if (topLimitSwitch.get()) {
     //   encoder.setPosition(RobotConstants.ElevatorConstants.L4height.getRotations());
     // }
+
+    Logger.recordOutput("elevator/targetrot", targetRot.getRotations());
 
     leadpid.setReference(targetRot.getRotations(), ControlType.kPosition);
   }
