@@ -45,7 +45,7 @@ public class ElevatorIONeo implements ElevatorIO {
     leadConfig = new SparkMaxConfig();
     leadConfig
         .closedLoop
-        .pid(0.075, 0, 0)
+        .pid(0.15, 0, 0)
         .minOutput(-0.5)
         .maxOutput(0.5)
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
@@ -54,19 +54,19 @@ public class ElevatorIONeo implements ElevatorIO {
 
     motor2config = new SparkMaxConfig();
     motor2config.apply(leadConfig);
-    motor2config.follow(leadMotor, true);
+    // motor2config.follow(leadMotor, true);
     motor2.configure(motor2config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
   public void moveToPoint(Rotation2d targetRot) {
 
-    if (bottomLimitSwitch.get()) {
-      encoder.setPosition(RobotConstants.ElevatorConstants.intakeheight.getRotations());
-    }
-    if (topLimitSwitch.get()) {
-      encoder.setPosition(RobotConstants.ElevatorConstants.L4height.getRotations());
-    }
+    // if (bottomLimitSwitch.get()) {
+    //   encoder.setPosition(RobotConstants.ElevatorConstants.intakeheight.getRotations());
+    // }
+    // if (topLimitSwitch.get()) {
+    //   encoder.setPosition(RobotConstants.ElevatorConstants.L4height.getRotations());
+    // }
 
     leadpid.setReference(targetRot.getRotations(), ControlType.kPosition);
   }

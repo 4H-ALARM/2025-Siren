@@ -5,10 +5,8 @@
 package frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.constants.RobotConstants.ElevatorConstants;
@@ -85,18 +83,20 @@ public class Elevator extends SubsystemBase {
       profileTimer.start();
     }
     if (profileTimer.isRunning()) {
-      elevator.moveToPoint(
-          Rotation2d.fromRotations(
-              profile.calculate(
-                      profileTimer.getTimestamp(),
-                      new State(
-                          this.elevator.getEncoder().getPosition(),
-                          this.elevator.getEncoder().getVelocity()),
-                      new State(this.stateHandler.getState().getElevatorHeight().getRotations(), 0))
-                  .position));
+      // elevator.moveToPoint(
+      //     Rotation2d.fromRotations(
+      //         profile.calculate(
+      //                 profileTimer.getTimestamp(),
+      //                 new State(
+      //                     this.elevator.getEncoder().getPosition(),
+      //                     this.elevator.getEncoder().getVelocity()),
+      //                 new State(this.stateHandler.getState().getElevatorHeight().getRotations(),
+      // 0))
+      //             .position));
     }
 
     elevator.updateInputs(elevatorinputs);
     Logger.processInputs("Elevator", elevatorinputs);
+    Logger.recordOutput("elevator/encoder", this.elevator.getEncoder().getPosition());
   }
 }

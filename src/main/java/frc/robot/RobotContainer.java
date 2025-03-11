@@ -210,6 +210,8 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
+    elevator.setDefaultCommand(
+        new InstantCommand(() -> elevator.moveElevator(copilot.getLeftY()), elevator));
     pilot.leftTrigger().toggleOnTrue(intake);
 
     copilot.a().onTrue(new InstantCommand(() -> stateHandler.setLevelEnum(LevelEnum.L1)));

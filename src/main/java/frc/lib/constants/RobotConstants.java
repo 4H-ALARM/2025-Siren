@@ -37,12 +37,13 @@ public class RobotConstants {
     public static int frontcanrange = 40;
     public static int intakecanrange = 41;
 
-    public static final Rotation2d defaultrot = new Rotation2d().fromRotations(0.50);
-    public static final Rotation2d intakerot = new Rotation2d().fromRotations(0.8);
-    public static final Rotation2d L1rot = new Rotation2d().fromRotations(0.72);
-    public static final Rotation2d L2rot = new Rotation2d().fromRotations(0.72);
-    public static final Rotation2d L3rot = new Rotation2d().fromRotations(0.73);
-    public static final Rotation2d L4rot = new Rotation2d().fromRotations(0.7);
+    public static final Rotation2d defaultrot = Rotation2d.fromRotations(0.50);
+    public static final Rotation2d intakerot = Rotation2d.fromRotations(0.8);
+    public static final Rotation2d goingdownrot = Rotation2d.fromRotations(0.5);
+    public static final Rotation2d L1rot = Rotation2d.fromRotations(0.72);
+    public static final Rotation2d L2rot = Rotation2d.fromRotations(0.72);
+    public static final Rotation2d L3rot = Rotation2d.fromRotations(0.73);
+    public static final Rotation2d L4rot = Rotation2d.fromRotations(0.7);
 
     public static final double staticSpeed = 0.0;
     public static final double intakeSpeed = -1;
@@ -62,11 +63,11 @@ public class RobotConstants {
     public static final Rotation2d defaultheight = Rotation2d.fromRotations(0);
     public static final Rotation2d intakeheight = Rotation2d.fromRotations(0);
     public static final Rotation2d L1height = Rotation2d.fromRotations(0);
-    public static final Rotation2d L2height = Rotation2d.fromRotations(-18.7);
-    public static final Rotation2d dealgifyheight = Rotation2d.fromRotations(-(17.5));
-    public static final Rotation2d L3height = Rotation2d.fromRotations(-35.4);
-    public static final Rotation2d L4height = Rotation2d.fromRotations(-70);
-    public static final Rotation2d maxHeight = Rotation2d.fromRotations(72);
+    public static final Rotation2d L2height = Rotation2d.fromRotations(-18.7 * 4);
+    public static final Rotation2d dealgifyheight = Rotation2d.fromRotations(-(17.5 * 4));
+    public static final Rotation2d L3height = Rotation2d.fromRotations(-35.4 * 4);
+    public static final Rotation2d L4height = Rotation2d.fromRotations(-70 * 4);
+    public static final Rotation2d maxHeight = Rotation2d.fromRotations(72 * 4);
   }
 
   public static class GroundIntakeConstants {
@@ -87,14 +88,15 @@ public class RobotConstants {
   public static class GeneralConstants {
 
     public static Pose2d[] getCartesianCoordinates(
-        double angle, double poseOffset, double poseOffsetBack) { // Left:trueRight:false
+        double degrees, double poseOffset, double poseOffsetBack) { // Left:trueRight:false
       // Calculate x and y using trigonometric functions
-      double x = (0.8315 + poseOffsetBack) * Math.cos(angle) + 4.4895;
-      double y = (0.8315 + poseOffsetBack) * Math.sin(angle) + 4.026;
+      double radians = Units.degreesToRadians(degrees);
+      double x = (0.8315 + poseOffsetBack) * Math.cos(radians) + 4.4895;
+      double y = (0.8315 + poseOffsetBack) * Math.sin(radians) + 4.026;
 
       // Compute the tangent line's direction
-      double tangentX = -Math.sin(angle); // Negative sine for perpendicular direction
-      double tangentY = Math.cos(angle); // Cosine for perpendicular direction
+      double tangentX = -Math.sin(radians); // Negative sine for perpendicular direction
+      double tangentY = Math.cos(radians); // Cosine for perpendicular direction
 
       // Normalize the tangent direction
       double magnitude = Math.sqrt(tangentX * tangentX + tangentY * tangentY);
@@ -109,8 +111,8 @@ public class RobotConstants {
       double y2 = y - tangentY * poseOffset;
 
       // Create Pose2d objects
-      Pose2d pose1 = new Pose2d(new Translation2d(x1, y1), Rotation2d.fromRadians(angle));
-      Pose2d pose2 = new Pose2d(new Translation2d(x2, y2), Rotation2d.fromRadians(angle));
+      Pose2d pose1 = new Pose2d(new Translation2d(x1, y1), Rotation2d.fromRadians(radians));
+      Pose2d pose2 = new Pose2d(new Translation2d(x2, y2), Rotation2d.fromRadians(radians));
 
       // Return the coordinates as a Pose2d array
       return new Pose2d[] {pose1, pose2};
@@ -118,12 +120,12 @@ public class RobotConstants {
 
     public static boolean DEBUG = true;
 
-    public static Pose2d[] zerodeg = getCartesianCoordinates(0, 0.165, 0.44);
-    public static Pose2d[] sixtydeg = getCartesianCoordinates(60, 0.165, 0.44);
-    public static Pose2d[] onetwentydeg = getCartesianCoordinates(120, 0.165, 0.44);
-    public static Pose2d[] oneeightydeg = getCartesianCoordinates(180, 0.165, 0.44);
-    public static Pose2d[] twofourtydeg = getCartesianCoordinates(240, 0.165, 0.44);
-    public static Pose2d[] threehundreddeg = getCartesianCoordinates(300, 0.165, 0.44);
+    public static Pose2d[] zerodeg = getCartesianCoordinates(0, 0.1631, 0.44);
+    public static Pose2d[] sixtydeg = getCartesianCoordinates(60, 0.1631, 0.44);
+    public static Pose2d[] onetwentydeg = getCartesianCoordinates(120, 0.1631, 0.44);
+    public static Pose2d[] oneeightydeg = getCartesianCoordinates(180, 0.1631, 0.44);
+    public static Pose2d[] twofourtydeg = getCartesianCoordinates(240, 0.1631, 0.44);
+    public static Pose2d[] threehundreddeg = getCartesianCoordinates(300, 0.1631, 0.44);
 
     public static Pose2d[] reefPoses = {
       zerodeg[1],
