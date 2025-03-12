@@ -46,9 +46,9 @@ public class ElevatorIONeo implements ElevatorIO {
     leadConfig = new SparkMaxConfig();
     leadConfig
         .closedLoop
-        .pid(0.15, 0, 0)
-        .minOutput(-0.5)
-        .maxOutput(0.5)
+        .pid(1, 0, 0)
+        .minOutput(-1)
+        .maxOutput(1)
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
 
     leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -76,22 +76,14 @@ public class ElevatorIONeo implements ElevatorIO {
 
   @Override
   public void move(double input) {
-    double realinput = input * 0.2;
+    double realinput = input;
 
-    if (realinput > 0.15) {
-      realinput = 0.15;
-    }
-
-    if (realinput < -0.15) {
-      realinput = -0.15;
-    }
-
-    if (bottomLimitSwitch.get() && realinput < 0) {
-      stopElevator();
-    }
-    if (topLimitSwitch.get() && realinput > 0) {
-      stopElevator();
-    }
+    // if (bottomLimitSwitch.get() && realinput < 0) {
+    //   stopElevator();
+    // }
+    // if (topLimitSwitch.get() && realinput > 0) {
+    //   stopElevator();
+    // }
 
     leadMotor.set(realinput);
   }

@@ -84,7 +84,7 @@ public class EndEffector extends SubsystemBase {
 
     // wrist.setAngle(this.stateHandler.getState().getWristRotation());
 
-    // claw.setSpeed(this.stateHandler.getState().getClawSpeed());
+    claw.setSpeed(this.stateHandler.getState().getClawSpeed());
 
     this.claw.updateInputs(this.clawIOInputsAutoLogged);
     Logger.processInputs("Endeffector/claw", clawIOInputsAutoLogged);
