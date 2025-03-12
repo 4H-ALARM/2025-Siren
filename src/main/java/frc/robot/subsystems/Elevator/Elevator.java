@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems.elevator;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.constants.RobotConstants.ElevatorConstants;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
@@ -18,7 +22,9 @@ public class Elevator extends SubsystemBase {
   private ElevatorIOInputsAutoLogged elevatorinputs;
   private final StateHandler stateHandler;
 
-  private ProfiledPIDController pidController;
+  private TrapezoidProfile profile;
+  private ElevatorFeedforward feedforward;
+  private Timer profileTimer;
 
   private double targetRotation;
 
@@ -29,8 +35,10 @@ public class Elevator extends SubsystemBase {
 
     targetRotation = this.stateHandler.getState().getElevatorHeight().getRotations();
 
-    pidController =
-        new ProfiledPIDController(0.15, 0, 0, new TrapezoidProfile.Constraints(2000, 20000));
+    profile = new TrapezoidProfile(new Constraints(5000, 50000));
+    feedforward = new ElevatorFeedforward(0, 0.0, 0);
+    profileTimer = new Timer();
+    profileTimer.start();
   }
 
   public void moveElevator(double input) {
@@ -62,23 +70,29 @@ public class Elevator extends SubsystemBase {
     return false;
   }
 
-  public void resetPID() {
-    pidController.reset(elevator.getEncoder().getPosition());
-  }
-
   @Override
   public void periodic() {
 
-    if (stateHandler.getState().isDisabled()) {
-      elevator.stopElevator();
-    } else {
-      elevator.move(
-          pidController.calculate(
-              elevator.getEncoder().getPosition(),
-              this.stateHandler.getState().getElevatorHeight().getRotations()));
+    if (targetRotation != this.stateHandler.getChosenlevel().getTargetRotation2d().getRotations()) {
+      targetRotation = this.stateHandler.getChosenlevel().getTargetRotation2d().getRotations();
+      profileTimer.reset();
+      profileTimer.start();
     }
 
-    elevator.updateInputs(elevatorinputs);
+    if (profileTimer.isRunning()) {
+      elevator.moveToPoint(
+          Rotation2d.fromRotations(
+              profile.calculate(
+                          profileTimer.getTimestamp(),
+                          new State(
+                              this.elevator.getEncoder().getPosition(),
+                              this.elevator.getEncoder().getVelocity()),
+                          new State(targetRotation, 0))
+                      .position
+                  + feedforward.calculate(elevator.getEncoder().getVelocity())));
+    }
+
+    // elevator.updateInputs(elevatorinputs);
     Logger.processInputs("Elevator", elevatorinputs);
     Logger.recordOutput("elevator/encoder", this.elevator.getEncoder().getPosition());
   }

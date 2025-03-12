@@ -4,10 +4,23 @@
 
 package frc.lib.enums;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.lib.constants.RobotConstants;
+
 /** Add your docs here. */
 public enum LevelEnum {
-  L1,
-  L2,
-  L3,
-  L4
+  L1(RobotConstants.ElevatorConstants.L1height),
+  L2(RobotConstants.ElevatorConstants.L2height),
+  L3(RobotConstants.ElevatorConstants.L3height),
+  L4(RobotConstants.ElevatorConstants.L4height);
+
+  private final Rotation2d target;
+
+  LevelEnum(Rotation2d rotation2d) {
+    this.target = rotation2d;
+  }
+
+  public Rotation2d getTargetRotation2d() {
+    return target;
+  }
 }

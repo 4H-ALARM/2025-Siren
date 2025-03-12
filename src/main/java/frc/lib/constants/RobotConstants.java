@@ -63,11 +63,11 @@ public class RobotConstants {
     public static final Rotation2d defaultheight = Rotation2d.fromRotations(0);
     public static final Rotation2d intakeheight = Rotation2d.fromRotations(0);
     public static final Rotation2d L1height = Rotation2d.fromRotations(0);
-    public static final Rotation2d L2height = Rotation2d.fromRotations(-18.7 * 4);
-    public static final Rotation2d dealgifyheight = Rotation2d.fromRotations(-(17.5 * 4));
-    public static final Rotation2d L3height = Rotation2d.fromRotations(-35.4 * 4);
-    public static final Rotation2d L4height = Rotation2d.fromRotations(-70 * 4);
-    public static final Rotation2d maxHeight = Rotation2d.fromRotations(-72 * 4);
+    public static final Rotation2d L2height = Rotation2d.fromRotations(-18.7);
+    public static final Rotation2d dealgifyheight = Rotation2d.fromRotations((-17.5));
+    public static final Rotation2d L3height = Rotation2d.fromRotations(-35.4);
+    public static final Rotation2d L4height = Rotation2d.fromRotations(-70);
+    public static final Rotation2d maxHeight = Rotation2d.fromRotations(-72);
   }
 
   public static class GroundIntakeConstants {
