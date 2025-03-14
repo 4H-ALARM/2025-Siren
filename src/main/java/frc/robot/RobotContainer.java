@@ -28,12 +28,9 @@ import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
 import frc.lib.enums.robotStates;
 import frc.robot.commands.CommandGroups.DeAlgifyCommand;
-import frc.robot.commands.CommandGroups.IntakeCommandGroup;
-import frc.robot.commands.CommandGroups.ScoreCommandGroup;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.StateCommands.IntakeAlgae;
-import frc.robot.commands.StateCommands.PlaceAtChosenHeight;
-import frc.robot.commands.StateCommands.ThrowAlgae;
+import frc.robot.commands.GroupCommands;
+import frc.robot.commands.StateCommands;
 import frc.robot.subsystems.bargemech.bargeIONeo;
 import frc.robot.subsystems.bargemech.bargeMech;
 import frc.robot.subsystems.drive.Drive;
@@ -83,14 +80,13 @@ public class RobotContainer {
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
-  private final IntakeCommandGroup intake;
-  private final ScoreCommandGroup score;
-  private final ScoreCommandGroup score2;
-  private final PlaceAtChosenHeight placeAtChosenHeight;
-  private final IntakeAlgae intakeAlgae;
-  private final ThrowAlgae throwAlgae;
-  private final DeAlgifyCommand deAlgifyCommandGroup;
-  // private final AlignToPoseCommand driveToPose;
+  private final Command intake;
+  private final Command score;
+  private final Command score2;
+  private final Command placeAtChosenHeight;
+  private final Command intakeAlgae;
+  private final Command throwAlgae;
+  private final Command deAlgifyCommandGroup;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -185,10 +181,10 @@ public class RobotContainer {
     }
 
     intake =
-        new IntakeCommandGroup(
+        GroupCommands.intake(
             drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable);
     score =
-        new ScoreCommandGroup(
+        GroupCommands.score(
             drive,
             elevator,
             endEffector,
@@ -198,7 +194,7 @@ public class RobotContainer {
             alignDisable);
 
     score2 =
-        new ScoreCommandGroup(
+        GroupCommands.score(
             drive,
             elevator,
             endEffector,
@@ -207,9 +203,9 @@ public class RobotContainer {
             elevatorDisable,
             alignDisable);
     placeAtChosenHeight =
-        new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
-    intakeAlgae = new IntakeAlgae(groundIntake, stateHandler);
-    throwAlgae = new ThrowAlgae(groundIntake, stateHandler);
+        StateCommands.placeAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
+    intakeAlgae = StateCommands.intakeAlgae(groundIntake, stateHandler);
+    throwAlgae = StateCommands.throwAlgae(groundIntake, stateHandler);
     deAlgifyCommandGroup =
         new DeAlgifyCommand(
             drive,

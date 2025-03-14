@@ -1,4 +1,4 @@
-package frc.robot.commands.Drive;
+package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -8,56 +8,65 @@ import frc.lib.util.GeometryUtil;
 import frc.robot.ToggleHandler;
 import frc.robot.subsystems.drive.Drive;
 
-public class ToClosestTargetPoseCommand extends Command {
+public class ToClosestPoseCommand extends Command {
   private final Drive drive;
-  private Command driveToPose;
-  private boolean isNotBlue;
+  private Command alignToPose;
   private ToggleHandler disable;
   private Pose2d[] poses;
 
-  public ToClosestTargetPoseCommand(Drive drive, ToggleHandler disable, Pose2d[] poses) {
+  /**
+   * Given a list of potential poses, calculate the closest one then align to it.
+   * 
+   * @param drive The drive subsystem
+   * @param disable Whether to disable the command
+   * @param poses The list of poses to check
+   */
+  public ToClosestPoseCommand(Drive drive, ToggleHandler disable, Pose2d[] poses) {
     this.drive = drive;
     this.disable = disable;
     this.poses = poses;
-    // each subsystem used by the command must be passed into the
-    // addRequirements() method (which takes a vararg of Subsystem)
     addRequirements(this.drive);
-    driveToPose = new InstantCommand();
+    alignToPose = new InstantCommand();
   }
 
+  /**
+   * Calculate the nearest target pose from the list of poses, then initialize the alignToPose command
+   */
   @Override
   public void initialize() {
-    Pose2d closestpose = new Pose2d();
+    Pose2d closestPose = new Pose2d();
     double closestDistance = 900000000;
+    var drivePose = drive.getPose();
+
     for (int i = 0; i < poses.length; i++) {
       Pose2d checkingPose = AllianceFlipUtil.apply(poses[i]);
       double distance =
-          GeometryUtil.toTransform2d(drive.getPose())
+          GeometryUtil.toTransform2d(drivePose)
               .getTranslation()
               .getDistance(GeometryUtil.toTransform2d(checkingPose).getTranslation());
       if (distance < closestDistance) {
         closestDistance = distance;
-        closestpose = checkingPose; // intakePoses[i];
+        closestPose = checkingPose;
       }
     }
 
-    driveToPose = new AlignToPoseCommand(this.drive, closestpose);
-    driveToPose.initialize();
+    // After finding the closest pose, delegate to alignToPose
+    alignToPose = DriveCommands.alignToPose(this.drive, closestPose);
+    alignToPose.initialize();
   }
 
   @Override
   public void execute() {
-    driveToPose.execute();
+    alignToPose.execute();
   }
 
   @Override
   public boolean isFinished() {
-    // TODO: Make this return true when this Command no longer needs to run execute()
-    return driveToPose.isFinished() || disable.get();
+    return alignToPose.isFinished() || disable.get();
   }
 
   @Override
   public void end(boolean interrupted) {
-    driveToPose.end(interrupted);
+    alignToPose.end(interrupted);
   }
 }
