@@ -1,7 +1,10 @@
 package frc.robot.commands.CommandGroups;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.lib.constants.RobotConstants.ElevatorConstants;
+import frc.lib.enums.LevelEnum;
 import frc.robot.ToggleHandler;
 import frc.robot.commands.Drive.ToClosestReefPoseCommand;
 import frc.robot.commands.DriveCommands;
@@ -24,7 +27,8 @@ public class DeAlgifyCommand extends SequentialCommandGroup {
     super(
         new ParallelCommandGroup(
             new ToClosestReefPoseCommand(drive, alignDisable, frc.lib.constants.RobotConstants.GeneralConstants.algaePoses),
-            new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)),
+            new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
+        ),
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
             .withTimeout(1),
         new ParallelCommandGroup(

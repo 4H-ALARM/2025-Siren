@@ -71,8 +71,8 @@ public class RobotConstants {
     public static final BasePosition CORAL_L3 = new BasePosition(0.46);
     public static final BasePosition CORAL_L4 = new BasePosition(0.95);
     public static final BasePosition BOTTOM = new BasePosition(0.0);
-    public static final BasePosition DEALGIFYLOW = new BasePosition(0.0);
-    public static final BasePosition DEALGIFYHIGH = new BasePosition(0.0);
+    public static final BasePosition DEALGIFYLOW = new BasePosition(0.125);
+    public static final BasePosition DEALGIFYHIGH = new BasePosition(0.375);
     public static final double encoderLowerLimit = 0.0;
     public static final double encoderUpperLimit = 280.0;
     public static final double closeEnoughRange = 0.01 * ElevatorConstants.encoderUpperLimit;
@@ -150,6 +150,23 @@ public class RobotConstants {
       threehundreddeg[1],
       threehundreddeg[0]
     };
+
+    public static Pose2d[] zerodegA = getCartesianCoordinates(0, 0, 0.44);
+    public static Pose2d[] sixtydegA = getCartesianCoordinates(60, 0, 0.44);
+    public static Pose2d[] onetwentydegA = getCartesianCoordinates(120, 0, 0.44);
+    public static Pose2d[] oneeightydegA = getCartesianCoordinates(180, 0, 0.44);
+    public static Pose2d[] twofourtydegA = getCartesianCoordinates(240, 0, 0.44);
+    public static Pose2d[] threehundreddegA = getCartesianCoordinates(300, 0, 0.44);
+
+    public static Pose2d[] algaePoses = {
+      zerodegA[0],
+      sixtydegA[0],
+      onetwentydegA[0],
+      oneeightydegA[0],
+      twofourtydegA[0],
+      threehundreddegA[0]
+    };
+    
 
     public static Pose2d[] intakePoses = {new Pose2d(), new Pose2d(), new Pose2d(), new Pose2d()};
   }

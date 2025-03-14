@@ -23,7 +23,7 @@ public class ScoreCommandGroup extends SequentialCommandGroup {
       ToggleHandler alignDisable) {
     super(
         new ParallelCommandGroup(
-            new ToClosestReefPoseCommand(drive, alignDisable),
+            new ToClosestReefPoseCommand(drive, alignDisable, frc.lib.constants.RobotConstants.GeneralConstants.reefPoses),
             new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)),
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
             .withTimeout(1),
