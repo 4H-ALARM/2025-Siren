@@ -20,7 +20,7 @@ public class GroupCommands {
       ToggleHandler elevatorDisable) {
     return Commands.sequence(
         Commands.run(() -> stateHandler.setLevelEnum(LevelEnum.INTAKE)),
-        new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable),
+        StateCommands.elevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable),
         StateCommands.intake(elevator, endEffector, groundIntake, stateHandler),
         StateCommands.intakeCenterForward(elevator, endEffector, groundIntake, stateHandler),
         StateCommands.intakeCenterBackward(elevator, endEffector, groundIntake, stateHandler));
@@ -37,7 +37,8 @@ public class GroupCommands {
     return Commands.sequence(
         Commands.parallel(
             new ToClosestReefPoseCommand(drive, alignDisable),
-            new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)),
+            StateCommands.elevatorToChosenHeight(
+                elevator, endEffector, stateHandler, elevatorDisable)),
         StateCommands.placeAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
             .withTimeout(1),
         Commands.parallel(
