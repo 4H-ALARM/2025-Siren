@@ -151,6 +151,24 @@ public class RobotConstants {
       threehundreddeg[0]
     };
 
+    public static Pose2d[] reefPosesLeft = {
+      zerodeg[0],
+      sixtydeg[0],
+      onetwentydeg[0],
+      oneeightydeg[0],
+      twofourtydeg[0],
+      threehundreddeg[0]
+    };
+
+    public static Pose2d[] reefPosesRight = {
+      zerodeg[1],
+      sixtydeg[1],
+      onetwentydeg[1],
+      oneeightydeg[1],
+      twofourtydeg[1],
+      threehundreddeg[1]
+    };
+
     public static Pose2d[] intakePoses = {new Pose2d(), new Pose2d(), new Pose2d(), new Pose2d()};
   }
 }

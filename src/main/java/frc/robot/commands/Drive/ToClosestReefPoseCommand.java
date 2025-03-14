@@ -1,7 +1,5 @@
 package frc.robot.commands.Drive;
 
-import static frc.lib.constants.RobotConstants.GeneralConstants.reefPoses;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -13,9 +11,11 @@ public class ToClosestReefPoseCommand extends Command {
   private final Drive drive;
   private Command driveToPose;
   private boolean isNotBlue;
+  private final Pose2d[] reefposes;
 
-  public ToClosestReefPoseCommand(Drive drive) {
+  public ToClosestReefPoseCommand(Drive drive, Pose2d[] reefposes) {
     this.drive = drive;
+    this.reefposes = reefposes;
     // each subsystem used by the command must be passed into the
     // addRequirements() method (which takes a vararg of Subsystem)
     addRequirements(this.drive);
@@ -25,10 +25,11 @@ public class ToClosestReefPoseCommand extends Command {
 
   @Override
   public void initialize() {
+    Pose2d[] poses = reefposes;
     Pose2d closestpose = new Pose2d();
     double closestDistance = 900000000;
-    for (int i = 0; i < reefPoses.length; i++) {
-      Pose2d checkingPose = AllianceFlipUtil.apply(reefPoses[i]);
+    for (int i = 0; i < poses.length; i++) {
+      Pose2d checkingPose = AllianceFlipUtil.apply(poses[i]);
       double distance =
           GeometryUtil.toTransform2d(drive.getPose())
               .getTranslation()
