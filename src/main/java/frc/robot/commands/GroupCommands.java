@@ -23,7 +23,7 @@ public class GroupCommands {
         new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable),
         StateCommands.intake(elevator, endEffector, groundIntake, stateHandler),
         new IntakeCenterForward(elevator, endEffector, groundIntake, stateHandler),
-        new IntakeCenterBackward(elevator, endEffector, groundIntake, stateHandler));
+        StateCommands.intakeCenterBackward(elevator, endEffector, groundIntake, stateHandler));
   }
 
   public static Command score(
