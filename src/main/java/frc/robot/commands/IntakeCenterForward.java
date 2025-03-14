@@ -1,4 +1,4 @@
-package frc.robot.commands.StateCommands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.enums.robotStates;
@@ -7,13 +7,13 @@ import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.groundintake.GroundIntake;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
 
-public class IntakeCenterBackward extends Command {
+public class IntakeCenterForward extends Command {
   private final Elevator elevator;
   private final EndEffector endEffector;
   private final GroundIntake groundIntake;
   private final StateHandler stateHandler;
 
-  public IntakeCenterBackward(
+  public IntakeCenterForward(
       Elevator elevator, EndEffector endEffector, GroundIntake groundIntake, StateHandler handler) {
     this.elevator = elevator;
     this.endEffector = endEffector;
@@ -26,7 +26,7 @@ public class IntakeCenterBackward extends Command {
 
   @Override
   public void initialize() {
-    this.stateHandler.setState(robotStates.INTAKECENTERBACKWARD);
+    this.stateHandler.setState(robotStates.INTAKECENTERFORWARD);
   }
 
   @Override
@@ -35,10 +35,7 @@ public class IntakeCenterBackward extends Command {
   @Override
   public boolean isFinished() {
     // TODO: Make this return true when this Command no longer needs to run execute()
-    if (this.endEffector.getfrontIntaked() && this.endEffector.getbackIntaked()) {
-      return true;
-    }
-    return false;
+    return !this.endEffector.getbackIntaked();
   }
 
   @Override

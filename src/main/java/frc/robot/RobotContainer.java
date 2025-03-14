@@ -17,7 +17,6 @@ import static frc.lib.constants.VisionConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
@@ -27,12 +26,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
-import frc.robot.commands.CommandGroups.IntakeCommandGroup;
-import frc.robot.commands.CommandGroups.ScoreCommandGroup;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.StateCommands.IntakeAlgae;
-import frc.robot.commands.StateCommands.PlaceAtChosenHeight;
-import frc.robot.commands.StateCommands.ThrowAlgae;
+import frc.robot.commands.GroupCommands;
+import frc.robot.commands.IntakeAlgae;
+import frc.robot.commands.PlaceAtChosenHeight;
+import frc.robot.commands.ThrowAlgae;
 import frc.robot.subsystems.bargemech.bargeIONeo;
 import frc.robot.subsystems.bargemech.bargeMech;
 import frc.robot.subsystems.drive.Drive;
@@ -82,8 +80,8 @@ public class RobotContainer {
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
-  private final IntakeCommandGroup intake;
-  private final ScoreCommandGroup score;
+  private final Command intake;
+  private final Command score;
   private final PlaceAtChosenHeight placeAtChosenHeight;
   private final IntakeAlgae intakeAlgae;
   private final ThrowAlgae throwAlgae;
@@ -184,20 +182,9 @@ public class RobotContainer {
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
-    intake =
-        new IntakeCommandGroup(
-            drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable);
-    score =
-        new ScoreCommandGroup(
-            drive,
-            elevator,
-            endEffector,
-            groundIntake,
-            stateHandler,
-            elevatorDisable,
-            alignDisable);
-    placeAtChosenHeight =
-        new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
+    intake = GroupCommands.intake(drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable);
+    score = GroupCommands.score(drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable, alignDisable);
+    placeAtChosenHeight = new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
     intakeAlgae = new IntakeAlgae(groundIntake, stateHandler);
     throwAlgae = new ThrowAlgae(groundIntake, stateHandler);
 
