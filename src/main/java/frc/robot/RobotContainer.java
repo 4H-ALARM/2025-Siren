@@ -28,8 +28,8 @@ import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GroupCommands;
-import frc.robot.commands.IntakeAlgae;
 import frc.robot.commands.PlaceAtChosenHeight;
+import frc.robot.commands.StateCommands;
 import frc.robot.commands.ThrowAlgae;
 import frc.robot.subsystems.bargemech.bargeIONeo;
 import frc.robot.subsystems.bargemech.bargeMech;
@@ -83,7 +83,7 @@ public class RobotContainer {
   private final Command intake;
   private final Command score;
   private final PlaceAtChosenHeight placeAtChosenHeight;
-  private final IntakeAlgae intakeAlgae;
+  private final Command intakeAlgae;
   private final ThrowAlgae throwAlgae;
   // private final AlignToPoseCommand driveToPose;
 
@@ -185,7 +185,7 @@ public class RobotContainer {
     intake = GroupCommands.intake(drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable);
     score = GroupCommands.score(drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable, alignDisable);
     placeAtChosenHeight = new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
-    intakeAlgae = new IntakeAlgae(groundIntake, stateHandler);
+    intakeAlgae = StateCommands.intakeAlgae(groundIntake, stateHandler);
     throwAlgae = new ThrowAlgae(groundIntake, stateHandler);
 
     configureButtonBindings();

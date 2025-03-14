@@ -45,6 +45,8 @@ public class DealgifyState extends Command {
         this.stateHandler.setState(robotStates.DEALGIFYHIGH);
         this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYHIGH);
         break;
+      default:
+        break;
     }
   }
 
