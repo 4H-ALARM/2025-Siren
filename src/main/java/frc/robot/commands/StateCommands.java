@@ -6,6 +6,7 @@ import frc.lib.constants.RobotConstants;
 import frc.lib.constants.RobotConstants.ElevatorConstants;
 import frc.lib.enums.robotStates;
 import frc.robot.ToggleHandler;
+import frc.robot.subsystems.bargemech.bargeMech;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.groundintake.GroundIntake;
@@ -99,6 +100,34 @@ public class StateCommands {
         },
         elevator,
         endEffector);
+  }
+
+  // TODO: Remove endEffector and barge?
+  public static Command dealgify(
+      Elevator elevator, EndEffector endEffector, bargeMech barge, StateHandler stateHandler) {
+    return Commands.run(
+            () -> {
+              switch (stateHandler.getChosenlevel()) {
+                case DEALGIFYLOW:
+                  stateHandler.setState(robotStates.DEALGIFYLOW);
+                  elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYLOW);
+                  break;
+                case DEALGIFYHIGH:
+                  stateHandler.setState(robotStates.DEALGIFYHIGH);
+                  elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYHIGH);
+                  break;
+                default:
+                  break;
+              }
+            },
+            elevator,
+            endEffector,
+            barge)
+        .finallyDo(
+            () -> {
+              stateHandler.setState(robotStates.RESTING);
+              elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
+            });
   }
 
   public static Command placeAtChosenHeight(
