@@ -75,4 +75,19 @@ public class StateCommands {
         // like end()
         .finallyDo(() -> stateHandler.setState(robotStates.RESTING));
   }
+
+  public static Command throwAlgae(
+      GroundIntake groundIntake,
+      StateHandler stateHandler) {
+    return Commands.sequence(
+            // like initialize()
+            Commands.runOnce(
+                () -> stateHandler.setState(robotStates.GROUNDTHROW),
+                groundIntake),
+            // like execute() doing noting
+            Commands.idle(groundIntake))
+        // like end()
+        .finallyDo(() -> stateHandler.setState(robotStates.RESTING));
+  }
+
 }

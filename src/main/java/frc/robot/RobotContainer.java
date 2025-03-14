@@ -30,7 +30,6 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GroupCommands;
 import frc.robot.commands.PlaceAtChosenHeight;
 import frc.robot.commands.StateCommands;
-import frc.robot.commands.ThrowAlgae;
 import frc.robot.subsystems.bargemech.bargeIONeo;
 import frc.robot.subsystems.bargemech.bargeMech;
 import frc.robot.subsystems.drive.Drive;
@@ -84,7 +83,7 @@ public class RobotContainer {
   private final Command score;
   private final PlaceAtChosenHeight placeAtChosenHeight;
   private final Command intakeAlgae;
-  private final ThrowAlgae throwAlgae;
+  private final Command throwAlgae;
   // private final AlignToPoseCommand driveToPose;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -186,7 +185,7 @@ public class RobotContainer {
     score = GroupCommands.score(drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable, alignDisable);
     placeAtChosenHeight = new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
     intakeAlgae = StateCommands.intakeAlgae(groundIntake, stateHandler);
-    throwAlgae = new ThrowAlgae(groundIntake, stateHandler);
+    throwAlgae = StateCommands.throwAlgae(groundIntake, stateHandler);
 
     configureButtonBindings();
   }
