@@ -38,7 +38,8 @@ public class GroupCommands {
         Commands.parallel(
             new ToClosestReefPoseCommand(drive, alignDisable),
             new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)),
-        new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable).withTimeout(1),
+        StateCommands.placeAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
+            .withTimeout(1),
         Commands.parallel(
             DriveCommands.driveBackwards(drive).withTimeout(0.8),
             StateCommands.restingState(elevator, endEffector, stateHandler)));

@@ -28,7 +28,6 @@ import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.GroupCommands;
-import frc.robot.commands.PlaceAtChosenHeight;
 import frc.robot.commands.StateCommands;
 import frc.robot.subsystems.bargemech.bargeIONeo;
 import frc.robot.subsystems.bargemech.bargeMech;
@@ -81,7 +80,7 @@ public class RobotContainer {
 
   private final Command intake;
   private final Command score;
-  private final PlaceAtChosenHeight placeAtChosenHeight;
+  private final Command placeAtChosenHeight;
   private final Command intakeAlgae;
   private final Command throwAlgae;
   // private final AlignToPoseCommand driveToPose;
@@ -181,9 +180,20 @@ public class RobotContainer {
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
-    intake = GroupCommands.intake(drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable);
-    score = GroupCommands.score(drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable, alignDisable);
-    placeAtChosenHeight = new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
+    intake =
+        GroupCommands.intake(
+            drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable);
+    score =
+        GroupCommands.score(
+            drive,
+            elevator,
+            endEffector,
+            groundIntake,
+            stateHandler,
+            elevatorDisable,
+            alignDisable);
+    placeAtChosenHeight =
+        StateCommands.placeAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
     intakeAlgae = StateCommands.intakeAlgae(groundIntake, stateHandler);
     throwAlgae = StateCommands.throwAlgae(groundIntake, stateHandler);
 
