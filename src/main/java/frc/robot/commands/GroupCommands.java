@@ -41,6 +41,6 @@ public class GroupCommands {
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable).withTimeout(1),
         Commands.parallel(
             DriveCommands.driveBackwards(drive).withTimeout(0.8),
-            new Restingstate(elevator, endEffector, stateHandler)));
+            StateCommands.restingState(elevator, endEffector, stateHandler)));
   }
 }
