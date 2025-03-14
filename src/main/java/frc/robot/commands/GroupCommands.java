@@ -22,7 +22,7 @@ public class GroupCommands {
         Commands.run(() -> stateHandler.setLevelEnum(LevelEnum.INTAKE)),
         new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable),
         StateCommands.intake(elevator, endEffector, groundIntake, stateHandler),
-        new IntakeCenterForward(elevator, endEffector, groundIntake, stateHandler),
+        StateCommands.intakeCenterForward(elevator, endEffector, groundIntake, stateHandler),
         StateCommands.intakeCenterBackward(elevator, endEffector, groundIntake, stateHandler));
   }
 

@@ -56,4 +56,23 @@ public class StateCommands {
         // like end()
         .finallyDo(() -> stateHandler.setState(robotStates.RESTING));
   }
+
+  public static Command intakeCenterForward(
+      Elevator elevator,
+      EndEffector endEffector,
+      GroundIntake groundIntake,
+      StateHandler stateHandler) {
+    return Commands.sequence(
+            // like initialize()
+            Commands.runOnce(
+                () -> stateHandler.setState(robotStates.INTAKECENTERFORWARD),
+                elevator,
+                endEffector,
+                groundIntake),
+            // like execute() doing noting
+            Commands.idle(elevator, endEffector, groundIntake)
+                .until(() -> endEffector.getfrontIntaked() && endEffector.getbackIntaked()))
+        // like end()
+        .finallyDo(() -> stateHandler.setState(robotStates.RESTING));
+  }
 }
