@@ -33,7 +33,7 @@ public class SwerveConstants {
   // When using closed-loop control, the drive motor uses the control
   // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
   private static final Slot0Configs driveGains =
-      new Slot0Configs().withKP(0.8).withKI(0).withKD(0.0).withKS(0).withKV(0.124);
+      new Slot0Configs().withKP(1).withKI(0).withKD(0.0).withKS(0).withKV(0.124);
 
   // The closed-loop output type to use for the steer motors;
   // This affects the PID/FF gains for the steer motors
@@ -63,9 +63,9 @@ public class SwerveConstants {
       new TalonFXConfiguration()
           .withCurrentLimits(
               new CurrentLimitsConfigs()
-                  .withStatorCurrentLimit(30)
+                  .withStatorCurrentLimit(40)
                   .withStatorCurrentLimitEnable(true)
-                  .withSupplyCurrentLimit(30)
+                  .withSupplyCurrentLimit(40)
                   .withSupplyCurrentLimitEnable(true));
   private static final TalonFXConfiguration steerInitialConfigs =
       new TalonFXConfiguration()
