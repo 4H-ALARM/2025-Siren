@@ -14,10 +14,12 @@ public class ToClosestReefPoseCommand extends Command {
   private Command driveToPose;
   private boolean isNotBlue;
   private ToggleHandler disable;
+  private Pose2d[] poses;
 
-  public ToClosestReefPoseCommand(Drive drive, ToggleHandler disable) {
+  public ToClosestReefPoseCommand(Drive drive, ToggleHandler disable,Pose2d[] poses){
     this.drive = drive;
     this.disable = disable;
+    this.poses = poses;
     // each subsystem used by the command must be passed into the
     // addRequirements() method (which takes a vararg of Subsystem)
     addRequirements(this.drive);
@@ -28,8 +30,8 @@ public class ToClosestReefPoseCommand extends Command {
   public void initialize() {
     Pose2d closestpose = new Pose2d();
     double closestDistance = 900000000;
-    for (int i = 0; i < RobotConstants.GeneralConstants.reefPoses.length; i++) {
-      Pose2d checkingPose = AllianceFlipUtil.apply(RobotConstants.GeneralConstants.reefPoses[i]);
+    for (int i = 0; i < poses.length; i++) {
+      Pose2d checkingPose = AllianceFlipUtil.apply(poses[i]);
       double distance =
           GeometryUtil.toTransform2d(drive.getPose())
               .getTranslation()
