@@ -1,5 +1,6 @@
 package frc.robot.commands.CommandGroups;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -16,23 +17,26 @@ import frc.robot.subsystems.groundintake.GroundIntake;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
 
 public class DeAlgifyCommand extends SequentialCommandGroup {
-  public DeAlgifyCommand(
+  public static Command deAlgifyCommand(
       Drive drive,
       Elevator elevator,
       EndEffector endEffector,
       GroundIntake groundIntake,
       StateHandler stateHandler,
       ToggleHandler elevatorDisable,
-      ToggleHandler alignDisable) {
-    super(
-        new ParallelCommandGroup(
+      ToggleHandler alignDisable
+  ) {
+    return Commands.sequence(
+        Commands.parallel(
             new ToClosestReefPoseCommand(drive, alignDisable, frc.lib.constants.RobotConstants.GeneralConstants.algaePoses),
             new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
         ),
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
             .withTimeout(1),
-        new ParallelCommandGroup(
+        Commands.parallel(
             DriveCommands.driveBackwards(drive).withTimeout(0.8),
-            new Restingstate(elevator, endEffector, stateHandler)));
+            new Restingstate(elevator, endEffector, stateHandler)
+        )
+    );
   }
 }
