@@ -45,13 +45,13 @@ public class RobotConstants {
     public static int frontcanrange = 40;
     public static int intakecanrange = 41;
 
-    public static final Rotation2d defaultrot = new Rotation2d().fromRotations(0.50);
-    public static final Rotation2d intakerot = new Rotation2d().fromRotations(0.8);
-    public static final Rotation2d dealgifyrot = new Rotation2d().fromRotations(0.75);
-    public static final Rotation2d L1rot = new Rotation2d().fromRotations(0.72);
-    public static final Rotation2d L2rot = new Rotation2d().fromRotations(0.72);
-    public static final Rotation2d L3rot = new Rotation2d().fromRotations(0.73);
-    public static final Rotation2d L4rot = new Rotation2d().fromRotations(0.7);
+    public static final Rotation2d defaultrot = Rotation2d.fromRotations(0.50);
+    public static final Rotation2d intakerot = Rotation2d.fromRotations(0.8);
+    public static final Rotation2d dealgifyrot = Rotation2d.fromRotations(0.75);
+    public static final Rotation2d L1rot = Rotation2d.fromRotations(0.72);
+    public static final Rotation2d L2rot = Rotation2d.fromRotations(0.72);
+    public static final Rotation2d L3rot = Rotation2d.fromRotations(0.73);
+    public static final Rotation2d L4rot = Rotation2d.fromRotations(0.7);
 
     public static final double staticSpeed = 0.0;
     public static final double intakeSpeed = -1;
