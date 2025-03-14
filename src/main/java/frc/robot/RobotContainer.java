@@ -16,6 +16,8 @@ package frc.robot;
 import static frc.lib.constants.VisionConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
@@ -250,6 +252,15 @@ public class RobotContainer {
     pilot.x().whileTrue(throwAlgae);
   }
 
+  public void addAuto(String name, Command command) {
+    NamedCommands.registerCommand(name, command);
+    autoChooser.addOption(name, command);
+  }
+
+  public void configureAutos() {
+    // TODO call addAuto for each command
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -257,6 +268,6 @@ public class RobotContainer {
    *     <p>n in autonomous
    */
   public Command getAutonomousCommand() {
-    return new InstantCommand();
+    return autoChooser.get();
   }
 }
