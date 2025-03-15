@@ -3,7 +3,6 @@ package frc.robot.commands.Drive;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.lib.constants.RobotConstants;
 import frc.lib.util.AllianceFlipUtil;
 import frc.lib.util.GeometryUtil;
 import frc.robot.ToggleHandler;
@@ -16,7 +15,7 @@ public class ToClosestReefPoseCommand extends Command {
   private ToggleHandler disable;
   private Pose2d[] poses;
 
-  public ToClosestReefPoseCommand(Drive drive, ToggleHandler disable,Pose2d[] poses){
+  public ToClosestReefPoseCommand(Drive drive, ToggleHandler disable, Pose2d[] poses) {
     this.drive = drive;
     this.disable = disable;
     this.poses = poses;

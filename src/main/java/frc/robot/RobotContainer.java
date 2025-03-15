@@ -263,8 +263,12 @@ public class RobotContainer {
     copilot.y().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L3)));
     copilot.x().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
 
-    copilot.povDown().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYLOW)));
-    copilot.povDown().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));
+    copilot
+        .povDown()
+        .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYLOW)));
+    copilot
+        .povDown()
+        .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));
 
     copilot.povLeft().onTrue(new InstantCommand(() -> elevatorDisable.toggle()));
     copilot.povUp().onTrue(new InstantCommand(() -> alignDisable.toggle()));
