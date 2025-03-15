@@ -151,6 +151,11 @@ public class RobotConstants {
       threehundreddeg[0]
     };
 
-    public static Pose2d[] intakePoses = {new Pose2d(), new Pose2d(), new Pose2d(), new Pose2d()};
+    public static Pose2d[] intakePoses = {
+      new Pose2d(),
+      new Pose2d(),
+      new Pose2d(),
+      new Pose2d()
+    };
   }
 }

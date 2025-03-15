@@ -24,8 +24,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.lib.constants.RobotConstants;
 import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
+import frc.robot.commands.CommandGroups.AutoIntakeCommandGroup;
 import frc.robot.commands.CommandGroups.IntakeCommandGroup;
 import frc.robot.commands.CommandGroups.ScoreCommandGroup;
 import frc.robot.commands.DriveCommands;
@@ -87,6 +89,7 @@ public class RobotContainer {
   private final PlaceAtChosenHeight placeAtChosenHeight;
   private final IntakeAlgae intakeAlgae;
   private final ThrowAlgae throwAlgae;
+  private final Command autoIntake;
   // private final AlignToPoseCommand driveToPose;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -207,6 +210,7 @@ public class RobotContainer {
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
     intakeAlgae = new IntakeAlgae(groundIntake, stateHandler);
     throwAlgae = new ThrowAlgae(groundIntake, stateHandler);
+    autoIntake = new AutoIntakeCommandGroup(drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable, alignDisable);
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -220,6 +224,7 @@ public class RobotContainer {
     addAuto("leftside1piece", AutoBuilder.buildAuto("LeftAuto"));
     addAuto("rightside1piece", AutoBuilder.buildAuto("RightAuto"));
     addAuto("middle1piece", AutoBuilder.buildAuto("MiddleAuto"));
+    addAuto("autoIntake", autoIntake);
 
     configureButtonBindings();
   }
