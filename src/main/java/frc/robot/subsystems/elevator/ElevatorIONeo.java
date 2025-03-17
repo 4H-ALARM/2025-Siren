@@ -10,9 +10,10 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.lib.constants.RobotConstants;
 import frc.lib.util.BasePosition;
+import frc.lib.util.ValidatingDigitalInput;
+
 import org.littletonrobotics.junction.Logger;
 
 public class ElevatorIONeo implements ElevatorIO {
@@ -26,8 +27,8 @@ public class ElevatorIONeo implements ElevatorIO {
   private final SparkMaxConfig leadConfig;
   private final SparkMaxConfig followConfig;
 
-  private final DigitalInput bottomLimitSwitch;
-  private final DigitalInput topLimitSwitch;
+  private final ValidatingDigitalInput bottomLimitSwitch;
+  private final ValidatingDigitalInput topLimitSwitch;
 
   private final double encoderLowerLimit = 0.0;
   private final double encoderUpperLimit = 280.0;
@@ -35,8 +36,8 @@ public class ElevatorIONeo implements ElevatorIO {
 
   public ElevatorIONeo() {
 
-    bottomLimitSwitch = new DigitalInput(RobotConstants.ElevatorConstants.bottomlimitswitchID);
-    topLimitSwitch = new DigitalInput(RobotConstants.ElevatorConstants.toplimitswitchID);
+    bottomLimitSwitch = new ValidatingDigitalInput(RobotConstants.ElevatorConstants.bottomlimitswitchID, false);
+    topLimitSwitch = new ValidatingDigitalInput(RobotConstants.ElevatorConstants.toplimitswitchID, false);
 
     leadMotor = new SparkMax(RobotConstants.ElevatorConstants.leadMotorID, MotorType.kBrushless);
     followMotor =
