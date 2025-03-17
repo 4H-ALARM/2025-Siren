@@ -74,7 +74,7 @@ public class RobotConstants {
     public static final BasePosition DEALGIFYLOW = new BasePosition(0.0);
     public static final BasePosition DEALGIFYHIGH = new BasePosition(0.0);
     public static final double encoderLowerLimit = 0.0;
-    public static final double encoderUpperLimit = 280.0;
+    public static final double encoderUpperLimit = 280.0 / 3;
     public static final double closeEnoughRange = 0.01 * ElevatorConstants.encoderUpperLimit;
   }
 

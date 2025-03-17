@@ -25,7 +25,7 @@ public class ClawIOVortex implements ClawIO {
     SparkMaxConfig config = new SparkMaxConfig();
     config
         .closedLoop
-        .pid(100, 0, 0)
+        .pid(1, 0, 0)
         .minOutput(-1)
         .maxOutput(1)
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
