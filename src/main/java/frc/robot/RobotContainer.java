@@ -232,12 +232,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Default command, normal field-relative drive
 
-    // drive.setDefaultCommand(
-    //     DriveCommands.joystickDrive(
-    //         drive,
-    //         () -> (-pilot.getLeftY()),
-    //         () -> (-pilot.getLeftX()),
-    //         () -> (pilot.getRightX())));
+    drive.setDefaultCommand(
+        DriveCommands.joystickDrive(
+            drive,
+            () -> (-pilot.getLeftY()),
+            () -> (-pilot.getLeftX()),
+            () -> (pilot.getRightX())));
 
     // Reset gyro to 0° when B button is pressed
     pilot

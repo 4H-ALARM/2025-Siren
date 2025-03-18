@@ -116,7 +116,7 @@ public class DriveCommands {
 
   /** Drive backwards at a fixed speed */
   public static Command driveBackwards(Drive drive) {
-    var speeds = new ChassisSpeeds(0.7, 0, 0);
+    var speeds = new ChassisSpeeds(0.5, 0, 0);
     return driveChassisSpeeds(drive, speeds);
   }
 
