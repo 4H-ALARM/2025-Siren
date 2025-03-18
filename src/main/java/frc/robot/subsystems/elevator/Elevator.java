@@ -38,7 +38,7 @@ public class Elevator extends SubsystemBase {
     elevatorinputs = new ElevatorIOInputsAutoLogged();
     this.stateHandler = handler;
 
-    profile = new TrapezoidProfile(new Constraints(200, 600));
+    profile = new TrapezoidProfile(new Constraints(200, 300));
     feedforward = new ElevatorFeedforward(0, 0.0, 0);
     profileTimer = new Timer();
     profileTimer.start();
@@ -47,8 +47,16 @@ public class Elevator extends SubsystemBase {
   }
 
   public void setTargetPosition(BasePosition position) {
+    if (ElevatorPositionNormalized.toRange(
+            RobotConstants.ElevatorConstants.encoderLowerLimit,
+            RobotConstants.ElevatorConstants.encoderUpperLimit)
+        != position.toRange(
+            RobotConstants.ElevatorConstants.encoderLowerLimit,
+            RobotConstants.ElevatorConstants.encoderUpperLimit)) {
+      profileTimer.reset();
+    }
     ElevatorPositionNormalized = position;
-    profileTimer.reset();
+
     profileTimer.start();
   }
 
@@ -94,6 +102,7 @@ public class Elevator extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
     elevator.periodic();
 
     if (stateHandler.getState().isDisabled()) {
@@ -102,28 +111,28 @@ public class Elevator extends SubsystemBase {
     } else {
       profileTimer.start();
     }
-    if (profileTimer.isRunning()) {
+    // if (profileTimer.isRunning()) {
 
-      Rotation2d targetRotation =
-          Rotation2d.fromRotations(
-              profile.calculate(
-                      profileTimer.getTimestamp(),
-                      new State(
-                          this.elevator.getEncoder().getPosition(),
-                          this.elevator.getEncoder().getVelocity()),
-                      new State(
-                          ElevatorPositionNormalized.toRange(
-                              RobotConstants.ElevatorConstants.encoderLowerLimit,
-                              RobotConstants.ElevatorConstants.encoderUpperLimit),
-                          0))
-                  .position);
+    Rotation2d targetRotation =
+        Rotation2d.fromRotations(
+            profile.calculate(
+                    profileTimer.getTimestamp(),
+                    new State(
+                        this.elevator.getEncoder().getPosition(),
+                        this.elevator.getEncoder().getVelocity()),
+                    new State(
+                        ElevatorPositionNormalized.toRange(
+                            RobotConstants.ElevatorConstants.encoderLowerLimit,
+                            RobotConstants.ElevatorConstants.encoderUpperLimit),
+                        0))
+                .position);
 
-      elevator.setTargetPosition(
-          BasePosition.fromRange(
-              RobotConstants.ElevatorConstants.encoderLowerLimit,
-              RobotConstants.ElevatorConstants.encoderUpperLimit,
-              targetRotation.getRotations()));
-    }
+    elevator.setTargetPosition(
+        BasePosition.fromRange(
+            RobotConstants.ElevatorConstants.encoderLowerLimit,
+            RobotConstants.ElevatorConstants.encoderUpperLimit,
+            targetRotation.getRotations()));
+    // }
 
     elevator.updateInputs(elevatorinputs);
     Logger.processInputs("Elevator", elevatorinputs);

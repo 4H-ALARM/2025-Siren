@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.lib.constants.RobotConstants;
 import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
 import frc.robot.commands.CommandGroups.IntakeCommandGroup;
@@ -253,17 +252,11 @@ public class RobotContainer {
 
     pilot.leftTrigger().toggleOnTrue(intake);
 
-    elevator.setDefaultCommand(
-        Commands.run(
-            () -> elevator.moveElevator(copilot.getLeftY()),
-            elevator)); // Set elevator to bottom position on startup
+    // elevator.setDefaultCommand(
+    //     Commands.run(
+    //         () -> elevator.moveElevator(copilot.getLeftY()),
+    //         elevator)); // Set elevator to bottom position on startup
 
-    copilot
-        .a()
-        .onTrue(
-            Commands.run(
-                () -> elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L3),
-                elevator));
     copilot.a().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L1)));
     copilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));
     copilot.y().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L3)));

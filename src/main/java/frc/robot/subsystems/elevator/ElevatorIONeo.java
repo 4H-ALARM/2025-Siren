@@ -52,18 +52,21 @@ public class ElevatorIONeo implements ElevatorIO {
         // .apply(new EncoderConfig().inverted(true))
         .apply(
         new ClosedLoopConfig()
-            .pid(0.075, 0, 0)
-            .minOutput(-0.10)
-            .maxOutput(0.10)
+            .pid(0.085, 0, 0)
+            .minOutput(-1)
+            .maxOutput(1)
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder));
 
-    leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    leadConfig.closedLoopRampRate(0.2);
+
+    leadMotor.configure(
+        leadConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
     followConfig = new SparkMaxConfig();
     followConfig.follow(leadMotor, true);
     followConfig.apply(leadConfig);
     followMotor.configure(
-        followConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        followConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
@@ -85,6 +88,7 @@ public class ElevatorIONeo implements ElevatorIO {
     }
     double targetEncoderPosition = position.toRange(encoderLowerLimit, encoderUpperLimit);
     Logger.recordOutput("Elevator/targetrot", targetEncoderPosition);
+    Logger.recordOutput("Elevator/encoder", encoder.getPosition());
     controller.setReference(targetEncoderPosition, ControlType.kPosition);
   }
 
