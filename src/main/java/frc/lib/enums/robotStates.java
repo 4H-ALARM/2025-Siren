@@ -146,7 +146,7 @@ public enum robotStates {
       new robotstateconfig(
           EndEffectorConstants.dealgifyrot,
           GroundIntakeConstants.holdangle,
-          GroundIntakeConstants.throwSpeed,
+          GroundIntakeConstants.staticSpeed,
           EndEffectorConstants.staticSpeed,
           DealgifierConstants.speed,
           TargetPose.NONE)),
@@ -155,7 +155,7 @@ public enum robotStates {
       new robotstateconfig(
           EndEffectorConstants.dealgifyrot,
           GroundIntakeConstants.holdangle,
-          GroundIntakeConstants.throwSpeed,
+          GroundIntakeConstants.staticSpeed,
           EndEffectorConstants.staticSpeed,
           DealgifierConstants.speed,
           TargetPose.NONE));
