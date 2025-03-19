@@ -139,9 +139,9 @@ public class Drive extends SubsystemBase {
         this::getPose,
         this::setPose,
         this::getChassisSpeeds,
-        this::runVelocity,
+        this::runVelocityOpposite,
         new PPHolonomicDriveController(
-            new PIDConstants(40, 0.1, 0.1), new PIDConstants(10, 0, 0.6)),
+            new PIDConstants(7.5, 0.0, 0.0), new PIDConstants(5, 0, 0.0)),
         PP_CONFIG,
         () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
         this);
@@ -230,6 +230,36 @@ public class Drive extends SubsystemBase {
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
   }
 
+  public void runVelocityOpposite(ChassisSpeeds speeds) {
+    // Calculate module setpoints
+    ChassisSpeeds reversedSpeeds =
+        new ChassisSpeeds(
+            speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, -speeds.omegaRadiansPerSecond);
+
+    ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(reversedSpeeds, 0.02);
+    SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, SwerveConstants.kSpeedAt12Volts);
+
+    // Log unoptimized setpoints and setpoint speeds
+    Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
+    Logger.recordOutput("SwerveChassisSpeeds/Setpoints", discreteSpeeds);
+
+    // Send setpoints to modules
+    for (int i = 0; i < 4; i++) {
+      modules[i].runSetpoint(setpointStates[i]);
+    }
+
+    // Log optimized setpoints (runSetpoint mutates each state)
+    Logger.recordOutput("SwerveStates/SetpointsOptimized", setpointStates);
+  }
+
+  /** Runs the drive in a straight line with the specified drive output. */
+  public void runCharacterization(double output) {
+    for (int i = 0; i < 4; i++) {
+      modules[i].runCharacterization(output);
+    }
+  }
+
   /**
    * Runs the drive at the desired velocity.
    *
@@ -255,11 +285,11 @@ public class Drive extends SubsystemBase {
   }
 
   /** Runs the drive in a straight line with the specified drive output. */
-  public void runCharacterization(double output) {
-    for (int i = 0; i < 4; i++) {
-      modules[i].runCharacterization(output);
-    }
-  }
+  // public void runCharacterization(double output) {
+  //   for (int i = 0; i < 4; i++) {
+  //     modules[i].runCharacterization(output);
+  //   }
+  // }
 
   /** Stops the drive. */
   public void stop() {
