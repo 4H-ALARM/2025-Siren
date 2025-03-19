@@ -211,6 +211,7 @@ public class RobotContainer {
 
     addAuto("Score", score2);
     addAuto("Intake", intake);
+    addAuto("setL4", Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
 
     // Set up auto routines
     var defaultAuto = DriveCommands.driveBackwards(drive).withTimeout(5);

@@ -7,7 +7,6 @@ package frc.robot.subsystems.endeffector;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
@@ -73,15 +72,15 @@ public class EndEffector extends SubsystemBase {
       targetAngle = this.stateHandler.getState().getWristRotation().getRotations();
     }
 
-    wrist.setAngle(
-        Rotation2d.fromRotations(
-            profile.calculate(
-                    timer.getTimestamp(),
-                    new State(this.wrist.getRotation(), this.wrist.getVelocity()),
-                    new State(this.stateHandler.getState().getWristRotation().getRotations(), 0))
-                .position));
+    // wrist.setAngle(
+    //     Rotation2d.fromRotations(
+    //         profile.calculate(
+    //                 timer.getTimestamp(),
+    //                 new State(this.wrist.getRotation(), this.wrist.getVelocity()),
+    //                 new State(this.stateHandler.getState().getWristRotation().getRotations(), 0))
+    //             .position));
 
-    // wrist.setAngle(this.stateHandler.getState().getWristRotation());
+    wrist.setAngle(this.stateHandler.getState().getWristRotation());
 
     claw.setSpeed(this.stateHandler.getState().getClawSpeed());
 

@@ -10,9 +10,9 @@ public class RobotConstants {
 
   public static class DriveConstants {
 
-    public static final double alignP = 0.8;
+    public static final double alignP = 1.375;
     public static final double alignI = 0.5;
-    public static final double alignD = 0.01;
+    public static final double alignD = 0.1375;
     public static final double maxSpeed = 15.0;
     public static final double maxAccel = 30;
     public static final double translationRange = 0.03;
@@ -51,7 +51,7 @@ public class RobotConstants {
     public static final Rotation2d L1rot = new Rotation2d().fromRotations(0.72);
     public static final Rotation2d L2rot = new Rotation2d().fromRotations(0.72);
     public static final Rotation2d L3rot = new Rotation2d().fromRotations(0.73);
-    public static final Rotation2d L4rot = new Rotation2d().fromRotations(0.7);
+    public static final Rotation2d L4rot = new Rotation2d().fromRotations(0.71);
 
     public static final double staticSpeed = 0.0;
     public static final double intakeSpeed = -1;
@@ -68,8 +68,8 @@ public class RobotConstants {
 
     public static final BasePosition CORAL_L1 = new BasePosition(0.0);
     public static final BasePosition CORAL_L2 = new BasePosition(0.225);
-    public static final BasePosition CORAL_L3 = new BasePosition(0.46);
-    public static final BasePosition CORAL_L4 = new BasePosition(0.95);
+    public static final BasePosition CORAL_L3 = new BasePosition(0.47);
+    public static final BasePosition CORAL_L4 = new BasePosition(0.9725);
     public static final BasePosition BOTTOM = new BasePosition(0.0);
     public static final BasePosition DEALGIFYLOW = new BasePosition(0.0);
     public static final BasePosition DEALGIFYHIGH = new BasePosition(0.0);
@@ -129,12 +129,12 @@ public class RobotConstants {
 
     public static boolean DEBUG = true;
 
-    public static Pose2d[] zerodeg = getCartesianCoordinates(0, 0.165, 0.44);
-    public static Pose2d[] sixtydeg = getCartesianCoordinates(60, 0.165, 0.44);
-    public static Pose2d[] onetwentydeg = getCartesianCoordinates(120, 0.165, 0.44);
-    public static Pose2d[] oneeightydeg = getCartesianCoordinates(180, 0.165, 0.44);
-    public static Pose2d[] twofourtydeg = getCartesianCoordinates(240, 0.165, 0.44);
-    public static Pose2d[] threehundreddeg = getCartesianCoordinates(300, 0.165, 0.44);
+    public static Pose2d[] zerodeg = getCartesianCoordinates(0, 0.164, 0.44);
+    public static Pose2d[] sixtydeg = getCartesianCoordinates(60, 0.164, 0.44);
+    public static Pose2d[] onetwentydeg = getCartesianCoordinates(120, 0.164, 0.44);
+    public static Pose2d[] oneeightydeg = getCartesianCoordinates(180, 0.164, 0.44);
+    public static Pose2d[] twofourtydeg = getCartesianCoordinates(240, 0.164, 0.44);
+    public static Pose2d[] threehundreddeg = getCartesianCoordinates(300, 0.164, 0.44);
 
     public static Pose2d[] reefPoses = {
       zerodeg[1],

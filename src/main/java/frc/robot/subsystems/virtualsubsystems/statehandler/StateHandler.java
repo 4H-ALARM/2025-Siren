@@ -20,7 +20,7 @@ public class StateHandler extends VirtualSubsystem {
 
   public StateHandler() {
     this.state = new robotstateconfig();
-    chosenlevel = LevelEnum.L2;
+    chosenlevel = LevelEnum.L4;
   }
 
   public robotstateconfig getState() {
