@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
+import frc.lib.enums.robotStates;
 import frc.robot.commands.CommandGroups.DeAlgifyCommand;
 import frc.robot.commands.CommandGroups.IntakeCommandGroup;
 import frc.robot.commands.CommandGroups.ScoreCommandGroup;
@@ -276,6 +277,10 @@ public class RobotContainer {
     copilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));
     copilot.y().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L3)));
     copilot.x().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
+    copilot
+        .leftTrigger()
+        .onTrue(
+            Commands.runOnce(() -> stateHandler.setState(robotStates.RESTINGPOSTDEALGIFYNOHOLD)));
     copilot
         .leftBumper()
         .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYLOW)));

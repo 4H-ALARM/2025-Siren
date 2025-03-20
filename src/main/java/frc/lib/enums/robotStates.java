@@ -37,6 +37,15 @@ public enum robotStates {
           EndEffectorConstants.staticSpeed,
           DealgifierConstants.holdSpeed,
           TargetPose.NONE)),
+
+  RESTINGPOSTDEALGIFYNOHOLD(
+      new robotstateconfig(
+          EndEffectorConstants.holdAlgaerot,
+          GroundIntakeConstants.defaultangle,
+          GroundIntakeConstants.staticSpeed,
+          EndEffectorConstants.staticSpeed,
+          0,
+          TargetPose.NONE)),
   INTAKE(
       new robotstateconfig(
           EndEffectorConstants.intakerot,
