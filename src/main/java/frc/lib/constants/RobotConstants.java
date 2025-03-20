@@ -36,7 +36,7 @@ public class RobotConstants {
     public static final int leadID = 10;
     public static final int follower = 11;
     public static final double speed = 0.8;
-    public static final double holdSpeed = 0.5;
+    public static final double holdSpeed = 0.1;
   }
 
   public static class EndEffectorConstants {

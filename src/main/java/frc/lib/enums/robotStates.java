@@ -31,7 +31,7 @@ public enum robotStates {
 
   RESTINGPOSTDEALGIFY(
       new robotstateconfig(
-          EndEffectorConstants.defaultrot,
+          EndEffectorConstants.holdAlgaerot,
           GroundIntakeConstants.defaultangle,
           GroundIntakeConstants.staticSpeed,
           EndEffectorConstants.staticSpeed,
