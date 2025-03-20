@@ -283,8 +283,8 @@ public class RobotContainer {
         .rightBumper()
         .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));
 
-    copilot.povLeft().onTrue(new InstantCommand(() -> elevatorDisable.toggle()));
-    copilot.povUp().onTrue(new InstantCommand(() -> alignDisable.toggle()));
+    copilot.povLeft().onTrue(Commands.runOnce(() -> elevatorDisable.toggle()));
+    copilot.povUp().onTrue(Commands.runOnce(() -> alignDisable.toggle()));
 
     pilot.rightTrigger().whileTrue(score);
     pilot.rightBumper().onTrue(placeAtChosenHeight.withTimeout(1));
