@@ -28,6 +28,15 @@ public enum robotStates {
           EndEffectorConstants.staticSpeed,
           0,
           TargetPose.NONE)),
+
+  RESTINGPOSTDEALGIFY(
+      new robotstateconfig(
+          EndEffectorConstants.defaultrot,
+          GroundIntakeConstants.defaultangle,
+          GroundIntakeConstants.staticSpeed,
+          EndEffectorConstants.staticSpeed,
+          DealgifierConstants.holdSpeed,
+          TargetPose.NONE)),
   INTAKE(
       new robotstateconfig(
           EndEffectorConstants.intakerot,
@@ -138,6 +147,24 @@ public enum robotStates {
           EndEffectorConstants.defaultrot,
           GroundIntakeConstants.holdangle,
           GroundIntakeConstants.throwSpeed,
+          EndEffectorConstants.staticSpeed,
+          0,
+          TargetPose.NONE)),
+
+  DEALGIFYLOWPREPARE(
+      new robotstateconfig(
+          EndEffectorConstants.dealgifyrot,
+          GroundIntakeConstants.holdangle,
+          GroundIntakeConstants.staticSpeed,
+          EndEffectorConstants.staticSpeed,
+          0,
+          TargetPose.NONE)),
+
+  DEALGIFYHIGHPREPARE(
+      new robotstateconfig(
+          EndEffectorConstants.dealgifyrot,
+          GroundIntakeConstants.holdangle,
+          GroundIntakeConstants.staticSpeed,
           EndEffectorConstants.staticSpeed,
           0,
           TargetPose.NONE)),

@@ -19,6 +19,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
+import frc.robot.commands.CommandGroups.DeAlgifyCommand;
 import frc.robot.commands.CommandGroups.IntakeCommandGroup;
 import frc.robot.commands.CommandGroups.ScoreCommandGroup;
 import frc.robot.commands.DriveCommands;
@@ -87,6 +89,7 @@ public class RobotContainer {
   private final PlaceAtChosenHeight placeAtChosenHeight;
   private final IntakeAlgae intakeAlgae;
   private final ThrowAlgae throwAlgae;
+  private final DeAlgifyCommand deAlgifyCommandGroup;
   // private final AlignToPoseCommand driveToPose;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -117,7 +120,7 @@ public class RobotContainer {
 
         endEffector = new EndEffector(new ClawIOVortex(), new WristIONeo(), stateHandler);
 
-        barge = new bargeMech(new bargeIONeo());
+        barge = new bargeMech(new bargeIONeo(), stateHandler);
 
         break;
 
@@ -146,7 +149,7 @@ public class RobotContainer {
 
         endEffector = new EndEffector(new ClawIOVortex(), new WristIONeo(), stateHandler);
 
-        barge = new bargeMech(new bargeIONeo());
+        barge = new bargeMech(new bargeIONeo(), stateHandler);
 
         break;
 
@@ -176,7 +179,7 @@ public class RobotContainer {
 
         endEffector = new EndEffector(new ClawIOVortex(), new WristIONeo(), stateHandler);
 
-        barge = new bargeMech(new bargeIONeo());
+        barge = new bargeMech(new bargeIONeo(), stateHandler);
 
         break;
     }
@@ -207,6 +210,16 @@ public class RobotContainer {
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
     intakeAlgae = new IntakeAlgae(groundIntake, stateHandler);
     throwAlgae = new ThrowAlgae(groundIntake, stateHandler);
+    deAlgifyCommandGroup =
+        new DeAlgifyCommand(
+            drive,
+            elevator,
+            endEffector,
+            groundIntake,
+            barge,
+            stateHandler,
+            elevatorDisable,
+            alignDisable);
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -252,6 +265,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     pilot.leftTrigger().toggleOnTrue(intake);
+    pilot.leftBumper().whileTrue(deAlgifyCommandGroup);
 
     // elevator.setDefaultCommand(
     //     Commands.run(
@@ -264,10 +278,10 @@ public class RobotContainer {
     copilot.x().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
 
     copilot
-        .povDown()
+        .leftBumper()
         .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYLOW)));
     copilot
-        .povDown()
+        .rightBumper()
         .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));
 
     copilot.povLeft().onTrue(new InstantCommand(() -> elevatorDisable.toggle()));

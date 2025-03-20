@@ -8,14 +8,14 @@ import frc.lib.util.GeometryUtil;
 import frc.robot.ToggleHandler;
 import frc.robot.subsystems.drive.Drive;
 
-public class ToClosestReefPoseCommand extends Command {
+public class ToClosestTargetPoseCommand extends Command {
   private final Drive drive;
   private Command driveToPose;
   private boolean isNotBlue;
   private ToggleHandler disable;
   private Pose2d[] poses;
 
-  public ToClosestReefPoseCommand(Drive drive, ToggleHandler disable, Pose2d[] poses) {
+  public ToClosestTargetPoseCommand(Drive drive, ToggleHandler disable, Pose2d[] poses) {
     this.drive = drive;
     this.disable = disable;
     this.poses = poses;

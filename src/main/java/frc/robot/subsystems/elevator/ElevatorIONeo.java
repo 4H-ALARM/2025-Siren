@@ -53,8 +53,8 @@ public class ElevatorIONeo implements ElevatorIO {
         .apply(
         new ClosedLoopConfig()
             .pid(0.15, 0, 0)
-            .minOutput(-1)
-            .maxOutput(1)
+            .minOutput(-0.3)
+            .maxOutput(0.3)
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder));
 
     leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

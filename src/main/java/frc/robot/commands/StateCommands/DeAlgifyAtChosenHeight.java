@@ -1,6 +1,7 @@
 package frc.robot.commands.StateCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.constants.RobotConstants;
 import frc.lib.enums.robotStates;
 import frc.robot.ToggleHandler;
 import frc.robot.subsystems.bargemech.bargeMech;
@@ -54,6 +55,7 @@ public class DeAlgifyAtChosenHeight extends Command {
       this.bargeMech.stopBarge();
       return;
     }
-    this.stateHandler.setState(robotStates.RESTING);
+    this.stateHandler.setState(robotStates.RESTINGPOSTDEALGIFY);
+    this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
   }
 }

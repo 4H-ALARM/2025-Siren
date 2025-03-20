@@ -35,7 +35,8 @@ public class RobotConstants {
 
     public static final int leadID = 10;
     public static final int follower = 11;
-    public static final double speed = 0.5;
+    public static final double speed = 0.8;
+    public static final double holdSpeed = 0.5;
   }
 
   public static class EndEffectorConstants {
@@ -48,6 +49,7 @@ public class RobotConstants {
     public static final Rotation2d defaultrot = new Rotation2d().fromRotations(0.50);
     public static final Rotation2d intakerot = new Rotation2d().fromRotations(0.8);
     public static final Rotation2d dealgifyrot = new Rotation2d().fromRotations(0.75);
+    public static final Rotation2d holdAlgaerot = new Rotation2d().fromRotations(0.77);
     public static final Rotation2d L1rot = new Rotation2d().fromRotations(0.72);
     public static final Rotation2d L2rot = new Rotation2d().fromRotations(0.72);
     public static final Rotation2d L3rot = new Rotation2d().fromRotations(0.73);

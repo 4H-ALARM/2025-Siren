@@ -56,14 +56,14 @@ public class ElevatorToChosenHeight extends Command {
         this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
         Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
         break;
-        // case DEALGIFYLOW:
-        //   this.stateHandler.setState(robotStates.DEALGIFYLOW);
-        //   this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYLOW);
-        //   break;
-        // case DEALGIFYHIGH:
-        //   this.stateHandler.setState(robotStates.DEALGIFYHIGH);
-        //   this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYHIGH);
-        //   break;
+      case DEALGIFYLOW:
+        this.stateHandler.setState(robotStates.DEALGIFYLOWPREPARE);
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYLOW);
+        break;
+      case DEALGIFYHIGH:
+        this.stateHandler.setState(robotStates.DEALGIFYHIGHPREPARE);
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYHIGH);
+        break;
     }
   }
 
