@@ -35,7 +35,8 @@ public class RobotConstants {
 
     public static final int leadID = 10;
     public static final int follower = 11;
-    public static final double speed = 0.5;
+    public static final double speed = 0.8;
+    public static final double holdSpeed = 0.5;
   }
 
   public static class EndEffectorConstants {
@@ -48,6 +49,7 @@ public class RobotConstants {
     public static final Rotation2d defaultrot = new Rotation2d().fromRotations(0.50);
     public static final Rotation2d intakerot = new Rotation2d().fromRotations(0.8);
     public static final Rotation2d dealgifyrot = new Rotation2d().fromRotations(0.75);
+    public static final Rotation2d holdAlgaerot = new Rotation2d().fromRotations(0.77);
     public static final Rotation2d L1rot = new Rotation2d().fromRotations(0.72);
     public static final Rotation2d L2rot = new Rotation2d().fromRotations(0.72);
     public static final Rotation2d L3rot = new Rotation2d().fromRotations(0.73);
@@ -71,8 +73,8 @@ public class RobotConstants {
     public static final BasePosition CORAL_L3 = new BasePosition(0.47);
     public static final BasePosition CORAL_L4 = new BasePosition(0.9725);
     public static final BasePosition BOTTOM = new BasePosition(0.0);
-    public static final BasePosition DEALGIFYLOW = new BasePosition(0.0);
-    public static final BasePosition DEALGIFYHIGH = new BasePosition(0.0);
+    public static final BasePosition DEALGIFYLOW = new BasePosition(0.125);
+    public static final BasePosition DEALGIFYHIGH = new BasePosition(0.375);
     public static final double encoderLowerLimit = 0.0;
     public static final double encoderUpperLimit = 280.0 / 3;
     public static final double closeEnoughRange = 0.01 * ElevatorConstants.encoderUpperLimit;
@@ -149,6 +151,22 @@ public class RobotConstants {
       twofourtydeg[0],
       threehundreddeg[1],
       threehundreddeg[0]
+    };
+
+    public static Pose2d[] zerodegA = getCartesianCoordinates(0, 0, 0.44);
+    public static Pose2d[] sixtydegA = getCartesianCoordinates(60, 0, 0.44);
+    public static Pose2d[] onetwentydegA = getCartesianCoordinates(120, 0, 0.44);
+    public static Pose2d[] oneeightydegA = getCartesianCoordinates(180, 0, 0.44);
+    public static Pose2d[] twofourtydegA = getCartesianCoordinates(240, 0, 0.44);
+    public static Pose2d[] threehundreddegA = getCartesianCoordinates(300, 0, 0.44);
+
+    public static Pose2d[] algaePoses = {
+      zerodegA[0],
+      sixtydegA[0],
+      onetwentydegA[0],
+      oneeightydegA[0],
+      twofourtydegA[0],
+      threehundreddegA[0]
     };
 
     public static Pose2d[] intakePoses = {new Pose2d(), new Pose2d(), new Pose2d(), new Pose2d()};

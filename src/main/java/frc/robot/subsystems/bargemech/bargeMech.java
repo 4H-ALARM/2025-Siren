@@ -5,14 +5,17 @@
 package frc.robot.subsystems.bargemech;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
 
 public class bargeMech extends SubsystemBase {
 
   private final bargeIO barge;
+  private final StateHandler stateHandler;
 
   /** Creates a new EndEffector. */
-  public bargeMech(bargeIO b) {
+  public bargeMech(bargeIO b, StateHandler handler) {
     this.barge = b;
+    stateHandler = handler;
   }
 
   public void move(double input) {
@@ -24,5 +27,7 @@ public class bargeMech extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    this.barge.intake(this.stateHandler.getState().getDealgifySpeed());
+  }
 }
