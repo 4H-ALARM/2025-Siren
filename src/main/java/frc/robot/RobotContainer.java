@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
@@ -225,6 +224,7 @@ public class RobotContainer {
 
     addAuto("Score", score2);
     addAuto("Intake", intake);
+    addAuto("setL4", Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
 
     // Set up auto routines
     var defaultAuto = DriveCommands.driveBackwards(drive).withTimeout(5);
@@ -276,7 +276,6 @@ public class RobotContainer {
     copilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));
     copilot.y().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L3)));
     copilot.x().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
-
     copilot
         .leftBumper()
         .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYLOW)));
@@ -289,8 +288,8 @@ public class RobotContainer {
 
     pilot.rightTrigger().whileTrue(score);
     pilot.rightBumper().onTrue(placeAtChosenHeight.withTimeout(1));
-    pilot.leftBumper().whileTrue(intakeAlgae);
-    pilot.x().whileTrue(throwAlgae);
+    // pilot.leftBumper().whileTrue(intakeAlgae);
+    // pilot.x().whileTrue(throwAlgae);
   }
 
   public void addAuto(String name, Command command) {

@@ -70,17 +70,18 @@ public class ElevatorToChosenHeight extends Command {
   @Override
   public boolean isFinished() {
     return elevator.isCloseEnough() || disable.get();
+    // return false;
   }
 
   @Override
   public void end(boolean interrupted) {
-    if (disable.get()) {
-      this.elevator.stopElevator();
-      return;
-    }
-    if (interrupted) {
-      stateHandler.setState(robotStates.RESTING);
-      this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
-    }
+    // if (disable.get()) {
+    //   this.elevator.stopElevator();
+    //   return;
+    // }
+    // if (interrupted) {
+    //   stateHandler.setState(robotStates.RESTING);
+    //   this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
+    // }
   }
 }
