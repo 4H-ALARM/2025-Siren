@@ -1,11 +1,13 @@
 package frc.robot.commands.StateCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.constants.RobotConstants;
 import frc.lib.enums.robotStates;
 import frc.robot.ToggleHandler;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
+import org.littletonrobotics.junction.Logger;
 
 public class PlaceAtChosenHeight extends Command {
   private final Elevator elevator;
@@ -27,10 +29,26 @@ public class PlaceAtChosenHeight extends Command {
   @Override
   public void initialize() {
     switch (this.stateHandler.getChosenlevel()) {
-      case L1 -> this.stateHandler.setState(robotStates.L1SCORE);
-      case L2 -> this.stateHandler.setState(robotStates.L2SCORE);
-      case L3 -> this.stateHandler.setState(robotStates.L3SCORE);
-      case L4 -> this.stateHandler.setState(robotStates.L4SCORE);
+      case L1:
+        this.stateHandler.setState(robotStates.L1SCORE);
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L1);
+        Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
+        break;
+      case L2:
+        this.stateHandler.setState(robotStates.L2SCORE);
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L2);
+        Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
+        break;
+      case L3:
+        this.stateHandler.setState(robotStates.L3SCORE);
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L3);
+        Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
+        break;
+      case L4:
+        this.stateHandler.setState(robotStates.L4SCORE);
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L4);
+        Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
+        break;
     }
   }
 
