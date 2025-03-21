@@ -52,7 +52,7 @@ public class ElevatorIONeo implements ElevatorIO {
         // .apply(new EncoderConfig().inverted(true))
         .apply(
         new ClosedLoopConfig()
-            .pid(0.085, 0, 0)
+            .pid(.1, 0, 0)
             .minOutput(-1)
             .maxOutput(1)
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder));

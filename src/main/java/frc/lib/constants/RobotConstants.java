@@ -73,8 +73,8 @@ public class RobotConstants {
     public static final BasePosition CORAL_L3 = new BasePosition(0.47);
     public static final BasePosition CORAL_L4 = new BasePosition(0.9725);
     public static final BasePosition BOTTOM = new BasePosition(0.0);
-    public static final BasePosition DEALGIFYLOW = new BasePosition(0.125);
-    public static final BasePosition DEALGIFYHIGH = new BasePosition(0.375);
+    public static final BasePosition DEALGIFYLOW = new BasePosition(0.235 / 2);
+    public static final BasePosition DEALGIFYHIGH = new BasePosition(0.54);
     public static final double encoderLowerLimit = 0.0;
     public static final double encoderUpperLimit = 280.0 / 3;
     public static final double closeEnoughRange = 0.01 * ElevatorConstants.encoderUpperLimit;
