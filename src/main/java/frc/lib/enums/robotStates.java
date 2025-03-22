@@ -73,12 +73,22 @@ public enum robotStates {
           TargetPose.NONE)),
   L1PREPARE(
       new robotstateconfig(
+          EndEffectorConstants.defaultrot,
+          GroundIntakeConstants.defaultangle,
+          GroundIntakeConstants.staticSpeed,
+          EndEffectorConstants.staticSpeed,
+          0,
+          TargetPose.NONE)),
+
+  L1FLICK(
+      new robotstateconfig(
           EndEffectorConstants.L1rot,
           GroundIntakeConstants.defaultangle,
           GroundIntakeConstants.staticSpeed,
           EndEffectorConstants.staticSpeed,
           0,
           TargetPose.NONE)),
+
   L1SCORE(
       new robotstateconfig(
           EndEffectorConstants.L1rot,
@@ -88,6 +98,15 @@ public enum robotStates {
           0,
           TargetPose.NONE)),
   L2PREPARE(
+      new robotstateconfig(
+          EndEffectorConstants.defaultrot,
+          GroundIntakeConstants.defaultangle,
+          GroundIntakeConstants.staticSpeed,
+          EndEffectorConstants.staticSpeed,
+          0,
+          TargetPose.NONE)),
+
+  L2FLICK(
       new robotstateconfig(
           EndEffectorConstants.L2rot,
           GroundIntakeConstants.defaultangle,
@@ -105,6 +124,15 @@ public enum robotStates {
           TargetPose.NONE)),
   L3PREPARE(
       new robotstateconfig(
+          EndEffectorConstants.defaultrot,
+          GroundIntakeConstants.defaultangle,
+          GroundIntakeConstants.staticSpeed,
+          EndEffectorConstants.staticSpeed,
+          0,
+          TargetPose.NONE)),
+
+  L3FLICK(
+      new robotstateconfig(
           EndEffectorConstants.L3rot,
           GroundIntakeConstants.defaultangle,
           GroundIntakeConstants.staticSpeed,
@@ -120,6 +148,15 @@ public enum robotStates {
           0,
           TargetPose.NONE)),
   L4PREPARE(
+      new robotstateconfig(
+          EndEffectorConstants.defaultrot,
+          GroundIntakeConstants.defaultangle,
+          GroundIntakeConstants.staticSpeed,
+          EndEffectorConstants.staticSpeed,
+          0,
+          TargetPose.NONE)),
+
+  L4FLICK(
       new robotstateconfig(
           EndEffectorConstants.L4rot,
           GroundIntakeConstants.defaultangle,

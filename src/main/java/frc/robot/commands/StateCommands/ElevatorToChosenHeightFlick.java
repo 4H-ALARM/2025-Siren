@@ -9,13 +9,13 @@ import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
 import org.littletonrobotics.junction.Logger;
 
-public class PlaceAtChosenHeight extends Command {
+public class ElevatorToChosenHeightFlick extends Command {
   private final Elevator elevator;
   private final EndEffector endEffector;
   private final StateHandler stateHandler;
   private final ToggleHandler disable;
 
-  public PlaceAtChosenHeight(
+  public ElevatorToChosenHeightFlick(
       Elevator elevator, EndEffector endEffector, StateHandler handler, ToggleHandler disable) {
     this.elevator = elevator;
     this.endEffector = endEffector;
@@ -27,45 +27,61 @@ public class PlaceAtChosenHeight extends Command {
   }
 
   @Override
-  public void initialize() {
+  public void initialize() {}
+
+  @Override
+  public void execute() {
     switch (this.stateHandler.getChosenlevel()) {
       case L1:
-        this.stateHandler.setState(robotStates.L1SCORE);
+        this.stateHandler.setState(robotStates.L1FLICK);
         this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L1);
         Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
         break;
       case L2:
-        this.stateHandler.setState(robotStates.L2SCORE);
+        this.stateHandler.setState(robotStates.L2FLICK);
         this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L2);
         Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
         break;
       case L3:
-        this.stateHandler.setState(robotStates.L3SCORE);
+        this.stateHandler.setState(robotStates.L3FLICK);
         this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L3);
         Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
         break;
       case L4:
-        this.stateHandler.setState(robotStates.L4SCORE);
+        this.stateHandler.setState(robotStates.L4FLICK);
         this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.CORAL_L4);
         Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
+        break;
+      case INTAKE:
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
+        Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
+        break;
+      case DEALGIFYLOW:
+        this.stateHandler.setState(robotStates.DEALGIFYLOWPREPARE);
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYLOW);
+        break;
+      case DEALGIFYHIGH:
+        this.stateHandler.setState(robotStates.DEALGIFYHIGHPREPARE);
+        this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.DEALGIFYHIGH);
         break;
     }
   }
 
   @Override
-  public void execute() {}
-
-  @Override
   public boolean isFinished() {
-    return !this.endEffector.getfrontIntaked() || this.disable.get();
+    return elevator.isCloseEnough() || disable.get();
+    // return false;
   }
 
   @Override
   public void end(boolean interrupted) {
-    if (disable.get()) {
-      this.elevator.stopElevator();
-      return;
-    }
-    this.stateHandler.setState(robotStates.RESTING);
+    // if (disable.get()) {
+    //   this.elevator.stopElevator();
+    //   return;
+    // }
+    // if (interrupted) {
+    //   stateHandler.setState(robotStates.RESTING);
+    //   this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
+    // }
   }
 }

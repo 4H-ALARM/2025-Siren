@@ -60,6 +60,8 @@ public class RobotConstants {
     public static final double placeSpeed = -1;
     public static final double centerForwardSpeed = -0.3;
     public static final double centerBackwardsSpeed = 0.3;
+
+    public static final double closeEnoughRange = 0.02;
   }
 
   public static class ElevatorConstants {
