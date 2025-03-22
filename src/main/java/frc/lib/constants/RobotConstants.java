@@ -17,12 +17,12 @@ public class RobotConstants {
     public static final double maxAccel = 30;
     public static final double translationRange = 0.02;
 
-    public static final double headingP = 0.35; // 0.125 / 22;
-    public static final double headingI = 0.1;
-    public static final double headingD = 0.01;
-    public static final double maxHeadingSpeed = 2;
-    public static final double maxHeadingAccel = 100;
-    public static final double headingRange = Units.degreesToRadians(50);
+    public static final double headingP = 0.15; // 0.125 / 22;
+    public static final double headingI = 0.03;
+    public static final double headingD = 0;
+    public static final double maxHeadingSpeed = 1.5;
+    public static final double maxHeadingAccel = 3;
+    public static final double headingRange = Units.degreesToRadians(1.5);
   }
 
   public static class ClimberConstants {
@@ -131,12 +131,12 @@ public class RobotConstants {
 
     public static boolean DEBUG = true;
 
-    public static Pose2d[] zerodeg = getCartesianCoordinates(0, 0.164, 0.4828);
-    public static Pose2d[] sixtydeg = getCartesianCoordinates(60, 0.164, 0.4828);
-    public static Pose2d[] onetwentydeg = getCartesianCoordinates(120, 0.164, 0.4828);
-    public static Pose2d[] oneeightydeg = getCartesianCoordinates(180, 0.164, 0.4828);
-    public static Pose2d[] twofourtydeg = getCartesianCoordinates(240, 0.164, 0.4828);
-    public static Pose2d[] threehundreddeg = getCartesianCoordinates(300, 0.164, 0.4828);
+    public static Pose2d[] zerodeg = getCartesianCoordinates(0, 0.164, 0.495);
+    public static Pose2d[] sixtydeg = getCartesianCoordinates(60, 0.164, 0.495);
+    public static Pose2d[] onetwentydeg = getCartesianCoordinates(120, 0.164, 0.495);
+    public static Pose2d[] oneeightydeg = getCartesianCoordinates(180, 0.164, 0.495);
+    public static Pose2d[] twofourtydeg = getCartesianCoordinates(240, 0.164, 0.495);
+    public static Pose2d[] threehundreddeg = getCartesianCoordinates(300, 0.164, 0.495);
 
     public static Pose2d[] reefPoses = {
       zerodeg[1],
