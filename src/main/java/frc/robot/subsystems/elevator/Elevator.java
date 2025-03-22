@@ -32,6 +32,7 @@ public class Elevator extends SubsystemBase {
   private double targetRotation;
 
   private BasePosition ElevatorPositionNormalized;
+  private State t0State;
 
   public Elevator(ElevatorIO elevator, StateHandler handler) {
     this.elevator = elevator;
@@ -44,6 +45,9 @@ public class Elevator extends SubsystemBase {
     profileTimer.start();
 
     ElevatorPositionNormalized = new BasePosition(0.0);
+    t0State =
+        new State(
+            this.elevator.getEncoder().getPosition(), this.elevator.getEncoder().getVelocity());
   }
 
   public void setTargetPosition(BasePosition position) {
@@ -54,6 +58,9 @@ public class Elevator extends SubsystemBase {
             RobotConstants.ElevatorConstants.encoderLowerLimit,
             RobotConstants.ElevatorConstants.encoderUpperLimit)) {
       profileTimer.reset();
+      t0State =
+          new State(
+              this.elevator.getEncoder().getPosition(), this.elevator.getEncoder().getVelocity());
     }
     ElevatorPositionNormalized = position;
 
@@ -117,9 +124,7 @@ public class Elevator extends SubsystemBase {
         Rotation2d.fromRotations(
             profile.calculate(
                     profileTimer.getTimestamp(),
-                    new State(
-                        this.elevator.getEncoder().getPosition(),
-                        this.elevator.getEncoder().getVelocity()),
+                    t0State,
                     new State(
                         ElevatorPositionNormalized.toRange(
                             RobotConstants.ElevatorConstants.encoderLowerLimit,
