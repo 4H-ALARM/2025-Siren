@@ -7,6 +7,7 @@ import frc.lib.util.AllianceFlipUtil;
 import frc.lib.util.GeometryUtil;
 import frc.robot.ToggleHandler;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.vision.VisionIO;
 
 public class ToClosestTargetPoseCommand extends Command {
   private final Drive drive;
@@ -14,11 +15,19 @@ public class ToClosestTargetPoseCommand extends Command {
   private boolean isNotBlue;
   private ToggleHandler disable;
   private Pose2d[] poses;
+  private VisionIO[] disableTagList;
 
   public ToClosestTargetPoseCommand(Drive drive, ToggleHandler disable, Pose2d[] poses) {
+    this(drive, disable, poses, new VisionIO[0]);
+  }
+
+  public ToClosestTargetPoseCommand(
+      Drive drive, ToggleHandler disable, Pose2d[] poses, VisionIO[] disableTagList) {
     this.drive = drive;
     this.disable = disable;
     this.poses = poses;
+    this.disableTagList = disableTagList;
+
     // each subsystem used by the command must be passed into the
     // addRequirements() method (which takes a vararg of Subsystem)
     addRequirements(this.drive);
@@ -41,6 +50,10 @@ public class ToClosestTargetPoseCommand extends Command {
       }
     }
 
+    for (VisionIO dt : disableTagList) {
+      dt.disableTagDetection();
+    }
+
     driveToPose = new AlignToPoseCommand(this.drive, closestpose);
     driveToPose.initialize();
   }
@@ -59,5 +72,8 @@ public class ToClosestTargetPoseCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     driveToPose.end(interrupted);
+    for (VisionIO dt : disableTagList) {
+      dt.enableTagDetection();
+    }
   }
 }

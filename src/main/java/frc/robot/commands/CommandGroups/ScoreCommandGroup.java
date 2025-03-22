@@ -3,14 +3,15 @@ package frc.robot.commands.CommandGroups;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.ToggleHandler;
-import frc.robot.commands.DriveCommands;
 import frc.robot.commands.Drive.ToClosestTargetPoseCommand;
+import frc.robot.commands.DriveCommands;
 import frc.robot.commands.StateCommands.*;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.groundintake.GroundIntake;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
+import frc.robot.subsystems.vision.VisionIO;
 
 public class ScoreCommandGroup extends SequentialCommandGroup {
   public ScoreCommandGroup(
@@ -20,12 +21,15 @@ public class ScoreCommandGroup extends SequentialCommandGroup {
       GroundIntake groundIntake,
       StateHandler stateHandler,
       ToggleHandler elevatorDisable,
-      ToggleHandler alignDisable) {
+      ToggleHandler alignDisable,
+      VisionIO[] disableVisionList) {
     super(
         new ParallelCommandGroup(
             new ToClosestTargetPoseCommand(
-                drive, alignDisable,
-            frc.lib.constants.RobotConstants.GeneralConstants.reefPoses),
+                drive,
+                alignDisable,
+                frc.lib.constants.RobotConstants.GeneralConstants.reefPoses,
+                disableVisionList),
             new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)),
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
             .withTimeout(1),

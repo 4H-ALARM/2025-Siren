@@ -39,6 +39,8 @@ public class VisionIOLimelight implements VisionIO {
   private final DoubleArraySubscriber megatag1Subscriber;
   private final DoubleArraySubscriber megatag2Subscriber;
 
+  private boolean isTagDetectionDisabled = false;
+
   /**
    * Creates a new VisionIOLimelight.
    *
@@ -65,8 +67,11 @@ public class VisionIOLimelight implements VisionIO {
 
     // Update target observation
     inputs.latestTargetObservation =
-        new TargetObservation(
-            Rotation2d.fromDegrees(txSubscriber.get()), Rotation2d.fromDegrees(tySubscriber.get()));
+        isTagDetectionDisabled
+            ? new TargetObservation(new Rotation2d(), new Rotation2d())
+            : new TargetObservation(
+                Rotation2d.fromDegrees(txSubscriber.get()),
+                Rotation2d.fromDegrees(tySubscriber.get()));
 
     // Update orientation for MegaTag 2
     orientationPublisher.accept(
@@ -128,6 +133,13 @@ public class VisionIOLimelight implements VisionIO {
               PoseObservationType.MEGATAG_2));
     }
 
+    // disable any pose info if tag detection is disabled.
+    if (isTagDetectionDisabled) {
+      inputs.poseObservations = new PoseObservation[0];
+      inputs.tagIds = new int[0];
+      return;
+    }
+
     // Save pose observations to inputs object
     inputs.poseObservations = new PoseObservation[poseObservations.size()];
     for (int i = 0; i < poseObservations.size(); i++) {
@@ -152,5 +164,13 @@ public class VisionIOLimelight implements VisionIO {
             Units.degreesToRadians(rawLLArray[3]),
             Units.degreesToRadians(rawLLArray[4]),
             Units.degreesToRadians(rawLLArray[5])));
+  }
+
+  public void enableTagDetection() {
+    isTagDetectionDisabled = false;
+  }
+
+  public void disableTagDetection() {
+    isTagDetectionDisabled = true;
   }
 }

@@ -94,6 +94,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    VisionIO[] disableForScoring = new VisionIO[0];
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -104,7 +105,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(SwerveConstants.FrontRight),
                 new ModuleIOTalonFX(SwerveConstants.BackLeft),
                 new ModuleIOTalonFX(SwerveConstants.BackRight));
-
+        var limelightIO = new VisionIOLimelight(limelightName, drive::getRotation);
         vision =
             new Vision(
                 drive::addVisionMeasurement,
@@ -112,8 +113,9 @@ public class RobotContainer {
                 new VisionIOPhotonVision(camera2Name, robotToCamera2),
                 // new VisionIOPhotonVision(camera3Name, robotToCamera3),
                 // new VisionIOPhotonVision(camera4Name, robotToCamera4),
-                new VisionIOLimelight(limelightName, drive::getRotation));
+                limelightIO);
 
+        disableForScoring = new VisionIO[] {limelightIO};
         elevator = new Elevator(new ElevatorIONeo(), stateHandler);
 
         groundIntake = new GroundIntake(new GroundIntakeIOFalconVortex(), stateHandler);
@@ -195,7 +197,8 @@ public class RobotContainer {
             groundIntake,
             stateHandler,
             elevatorDisable,
-            alignDisable);
+            alignDisable,
+            disableForScoring);
 
     score2 =
         new ScoreCommandGroup(
@@ -205,7 +208,8 @@ public class RobotContainer {
             groundIntake,
             stateHandler,
             elevatorDisable,
-            alignDisable);
+            alignDisable,
+            disableForScoring);
     placeAtChosenHeight =
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable);
     intakeAlgae = new IntakeAlgae(groundIntake, stateHandler);
