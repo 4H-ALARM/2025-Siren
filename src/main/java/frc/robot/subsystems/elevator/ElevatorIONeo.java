@@ -31,6 +31,7 @@ public class ElevatorIONeo implements ElevatorIO {
 
   private final double encoderLowerLimit = 0.0;
   private final double encoderUpperLimit = 280.0 / 3;
+  private boolean limitSwitchBroke;
   // private final double rotationstoInches = 0.0;
 
   public ElevatorIONeo() {
@@ -52,12 +53,12 @@ public class ElevatorIONeo implements ElevatorIO {
         // .apply(new EncoderConfig().inverted(true))
         .apply(
         new ClosedLoopConfig()
-            .pid(.1, 0, 0)
+            .pid(.085, 0, 0)
             .minOutput(-1)
             .maxOutput(1)
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder));
 
-    leadConfig.closedLoopRampRate(0.2);
+    // leadConfig.closedLoopRampRate(0.2);
 
     leadMotor.configure(
         leadConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
@@ -67,6 +68,8 @@ public class ElevatorIONeo implements ElevatorIO {
     followConfig.apply(leadConfig);
     followMotor.configure(
         followConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+
+    limitSwitchBroke = false;
   }
 
   @Override
@@ -80,6 +83,17 @@ public class ElevatorIONeo implements ElevatorIO {
   }
 
   public void setTargetPosition(BasePosition position) {
+
+    if (bottomLimitSwitch.get() && topLimitSwitch.get()) {
+      limitSwitchBroke = true;
+    }
+
+    if (limitSwitchBroke) {
+      leadMotor.stopMotor();
+      followMotor.stopMotor();
+      return;
+    }
+
     if (bottomLimitSwitch.get()) {
       encoder.setPosition(encoderLowerLimit);
     }

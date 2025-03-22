@@ -10,7 +10,7 @@ public class RobotConstants {
 
   public static class DriveConstants {
 
-    public static final double alignP = 1.9;
+    public static final double alignP = 1.85;
     public static final double alignI = 0.5;
     public static final double alignD = 0.1375;
     public static final double maxSpeed = 15.0;
