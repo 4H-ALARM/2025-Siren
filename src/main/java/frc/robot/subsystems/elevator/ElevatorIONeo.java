@@ -82,22 +82,22 @@ public class ElevatorIONeo implements ElevatorIO {
 
   public void setTargetPosition(BasePosition position) {
 
-    if (bottomLimitSwitch.get() && topLimitSwitch.get()) {
-      limitSwitchBroke = true;
-    }
+    // if (bottomLimitSwitch.get() && topLimitSwitch.get()) {
+    //   limitSwitchBroke = true;
+    // }
 
-    if (limitSwitchBroke) {
-      leadMotor.stopMotor();
-      followMotor.stopMotor();
-      return;
-    }
+    // if (limitSwitchBroke) {
+    //   leadMotor.stopMotor();
+    //   followMotor.stopMotor();
+    //   return;
+    // }
 
     if (bottomLimitSwitch.get()) {
       encoder.setPosition(encoderLowerLimit);
     }
-    if (topLimitSwitch.get()) {
-      encoder.setPosition(encoderUpperLimit);
-    }
+    // if (topLimitSwitch.get()) {
+    //   encoder.setPosition(encoderUpperLimit);
+    // }
     double targetEncoderPosition = position.toRange(encoderLowerLimit, encoderUpperLimit);
     Logger.recordOutput("Elevator/targetrot", targetEncoderPosition);
     Logger.recordOutput("Elevator/encoder", encoder.getPosition());
