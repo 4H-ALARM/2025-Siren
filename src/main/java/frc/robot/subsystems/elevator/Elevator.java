@@ -39,7 +39,7 @@ public class Elevator extends SubsystemBase {
     elevatorinputs = new ElevatorIOInputsAutoLogged();
     this.stateHandler = handler;
 
-    profile = new TrapezoidProfile(new Constraints(200, 300));
+    profile = new TrapezoidProfile(new Constraints(500, 500));
     feedforward = new ElevatorFeedforward(0, 0.0, 0);
     profileTimer = new Timer();
     profileTimer.start();
