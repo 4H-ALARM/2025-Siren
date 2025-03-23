@@ -266,7 +266,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     pilot.leftTrigger().toggleOnTrue(intake);
-    pilot.leftBumper().whileTrue(deAlgifyCommandGroup);
+    // pilot.leftBumper().whileTrue(deAlgifyCommandGroup);
 
     // elevator.setDefaultCommand(
     //     Commands.run(
@@ -293,8 +293,8 @@ public class RobotContainer {
 
     pilot.rightTrigger().whileTrue(score);
     pilot.rightBumper().onTrue(placeAtChosenHeight.withTimeout(1));
-    // pilot.leftBumper().whileTrue(intakeAlgae);
-    // pilot.x().whileTrue(throwAlgae);
+    pilot.leftBumper().whileTrue(intakeAlgae);
+    pilot.x().whileTrue(throwAlgae);
   }
 
   public void addAuto(String name, Command command) {
