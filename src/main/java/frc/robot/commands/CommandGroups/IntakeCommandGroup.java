@@ -27,8 +27,10 @@ public class IntakeCommandGroup extends SequentialCommandGroup {
         //     new Intake(elevator, endEffector, groundIntake, stateHandler),
         //     new ToIntakePoseCommand(drive)
         //     ),
+        Commands.runOnce(() -> System.out.println("intake")),
         Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.INTAKE)),
-        new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatordisable),
+        new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatordisable)
+            .withTimeout(1),
         new Intake(elevator, endEffector, groundIntake, stateHandler),
         new IntakeCenterForward(elevator, endEffector, groundIntake, stateHandler),
         new IntakeCenterBackward(elevator, endEffector, groundIntake, stateHandler));

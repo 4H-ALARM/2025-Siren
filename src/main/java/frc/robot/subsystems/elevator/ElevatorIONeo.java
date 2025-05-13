@@ -92,9 +92,9 @@ public class ElevatorIONeo implements ElevatorIO {
     //   return;
     // }
 
-    if (bottomLimitSwitch.get()) {
-      encoder.setPosition(encoderLowerLimit);
-    }
+    // if (bottomLimitSwitch.get()) {
+    //   encoder.setPosition(encoderLowerLimit);
+    // }
     // if (topLimitSwitch.get()) {
     //   encoder.setPosition(encoderUpperLimit);
     // }

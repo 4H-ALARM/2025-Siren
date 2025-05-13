@@ -69,7 +69,8 @@ public class ElevatorToChosenHeight extends Command {
 
   @Override
   public boolean isFinished() {
-    return elevator.isCloseEnough() || disable.get();
+    // return elevator.isCloseEnough() || disable.get();
+    return disable.get();
     // return false;
   }
 

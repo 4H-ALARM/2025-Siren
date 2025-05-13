@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
-import frc.lib.enums.robotStates;
 import frc.robot.commands.CommandGroups.DeAlgifyCommand;
 import frc.robot.commands.CommandGroups.IntakeCommandGroup;
 import frc.robot.commands.CommandGroups.ScoreCommandGroup;
@@ -256,7 +255,7 @@ public class RobotContainer {
 
     // Reset gyro to 0° when B button is pressed
     pilot
-        .b()
+        .povLeft()
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -273,28 +272,29 @@ public class RobotContainer {
     //         () -> elevator.moveElevator(copilot.getLeftY()),
     //         elevator)); // Set elevator to bottom position on startup
 
-    copilot.a().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L1)));
-    copilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));
-    copilot.y().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L3)));
-    copilot.x().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
-    copilot
-        .leftTrigger()
-        .onTrue(
-            Commands.runOnce(() -> stateHandler.setState(robotStates.RESTINGPOSTDEALGIFYNOHOLD)));
-    copilot
-        .leftBumper()
-        .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYLOW)));
-    copilot
-        .rightBumper()
-        .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));
+    pilot.a().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L1)));
+    pilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));
+    pilot.y().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L3)));
+    pilot.x().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
+    // copilot
+    //     .leftTrigger()
+    //     .onTrue(
+    //         Commands.runOnce(() ->
+    // stateHandler.setState(robotStates.RESTINGPOSTDEALGIFYNOHOLD)));
+    // copilot
+    //     .leftBumper()
+    //     .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYLOW)));
+    // copilot
+    //     .rightBumper()
+    //     .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));
 
     copilot.povLeft().onTrue(Commands.runOnce(() -> elevatorDisable.toggle()));
     copilot.povUp().onTrue(Commands.runOnce(() -> alignDisable.toggle()));
 
     pilot.rightTrigger().whileTrue(score);
     pilot.rightBumper().onTrue(placeAtChosenHeight.withTimeout(1));
-    pilot.leftBumper().whileTrue(intakeAlgae);
-    pilot.x().whileTrue(throwAlgae);
+    // pilot.leftBumper().whileTrue(intakeAlgae);
+    // pilot.x().whileTrue(throwAlgae);
   }
 
   public void addAuto(String name, Command command) {
