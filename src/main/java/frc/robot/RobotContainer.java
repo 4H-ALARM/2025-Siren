@@ -98,11 +98,18 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         drive =
             new Drive(
-                new GyroIOPigeon2(),
-                new ModuleIOTalonFX(SwerveConstants.FrontLeft),
-                new ModuleIOTalonFX(SwerveConstants.FrontRight),
-                new ModuleIOTalonFX(SwerveConstants.BackLeft),
-                new ModuleIOTalonFX(SwerveConstants.BackRight));
+                new GyroIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {});
+        /*drive =
+        new Drive(
+            new GyroIOPigeon2(),
+            new ModuleIOTalonFX(SwerveConstants.FrontLeft),
+            new ModuleIOTalonFX(SwerveConstants.FrontRight),
+            new ModuleIOTalonFX(SwerveConstants.BackLeft),
+            new ModuleIOTalonFX(SwerveConstants.BackRight));*/
 
         vision =
             new Vision(
@@ -254,15 +261,15 @@ public class RobotContainer {
             () -> (pilot.getRightX())));
 
     // Reset gyro to 0° when B button is pressed
-    pilot
-        .povLeft()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true));
+    /*pilot
+    .povLeft()
+    .onTrue(
+        Commands.runOnce(
+                () ->
+                    drive.setPose(
+                        new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+                drive)
+            .ignoringDisable(true));*/
 
     pilot.leftTrigger().toggleOnTrue(intake);
     // pilot.leftBumper().whileTrue(deAlgifyCommandGroup);
@@ -288,7 +295,7 @@ public class RobotContainer {
     //     .rightBumper()
     //     .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));
 
-    copilot.povLeft().onTrue(Commands.runOnce(() -> elevatorDisable.toggle()));
+    pilot.povLeft().onTrue(Commands.runOnce(() -> elevatorDisable.toggle()));
     copilot.povUp().onTrue(Commands.runOnce(() -> alignDisable.toggle()));
 
     pilot.rightTrigger().whileTrue(score);

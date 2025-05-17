@@ -2,6 +2,7 @@ package frc.robot.commands.CommandGroups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.ToggleHandler;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.StateCommands.*;
@@ -25,8 +26,8 @@ public class ScoreCommandGroup extends SequentialCommandGroup {
             // new ToClosestTargetPoseCommand(
             //     drive, alignDisable,
             // frc.lib.constants.RobotConstants.GeneralConstants.reefPoses),
-            new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
-                .withTimeout(5)),
+            new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable),
+            new WaitCommand(5)), // make sure it takes at least 5 seconds.
         new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
             .withTimeout(1),
         new ParallelCommandGroup(
