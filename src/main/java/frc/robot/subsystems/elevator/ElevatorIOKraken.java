@@ -25,7 +25,7 @@ public class ElevatorIOKraken implements ElevatorIO {
 
   public ElevatorIOKraken() {
 
-    Slot0Configs pidConfigs = new Slot0Configs().withKP(0.5).withKI(0.1).withKD(0);
+    Slot0Configs pidConfigs = new Slot0Configs().withKP(0.85).withKI(0.1).withKD(0);
 
     leftKraken = new TalonFX(RobotConstants.ElevatorConstants.elevatorLeft);
     // // followerKraken = new TalonFX(RobotConstants.ElevatorConstants.elevatorRight);
@@ -64,9 +64,9 @@ public class ElevatorIOKraken implements ElevatorIO {
     //   return;
     // }
 
-    // if (bottomLimitSwitch.get()) {
-    //   encoder.setPosition(encoderLowerLimit);
-    // }
+    if (bottomLimitSwitch.getS1Closed().getValue()) {
+      leftKraken.setPosition(encoderLowerLimit);
+    }
     // if (topLimitSwitch.get()) {
     //   encoder.setPosition(encoderUpperLimit);
     // }

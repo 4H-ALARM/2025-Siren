@@ -269,10 +269,10 @@ public class RobotContainer {
     pilot.leftTrigger().toggleOnTrue(intake);
     // pilot.leftBumper().whileTrue(deAlgifyCommandGroup);
 
-    elevator.setDefaultCommand(
-        Commands.run(
-            () -> elevator.moveElevator(copilot.getLeftY()),
-            elevator)); // Set elevator to bottom position on startup
+    // elevator.setDefaultCommand(
+    //     Commands.run(
+    //         () -> elevator.moveElevator(copilot.getLeftY()),
+    //         elevator)); // Set elevator to bottom position on startup
 
     copilot.a().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L1)));
     copilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));
