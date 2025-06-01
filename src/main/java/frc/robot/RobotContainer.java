@@ -187,7 +187,13 @@ public class RobotContainer {
 
     intake =
         new IntakeCommandGroup(
-            drive, elevator, endEffector, groundIntake, stateHandler, elevatorDisable);
+            drive,
+            elevator,
+            endEffector,
+            groundIntake,
+            stateHandler,
+            elevatorDisable,
+            alignDisable);
     score =
         new ScoreCommandGroup(
             drive,

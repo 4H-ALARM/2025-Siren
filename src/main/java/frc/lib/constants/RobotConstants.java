@@ -170,6 +170,26 @@ public class RobotConstants {
       threehundreddegA[0]
     };
 
-    public static Pose2d[] intakePoses = {new Pose2d(), new Pose2d(), new Pose2d(), new Pose2d()};
+    public static Pose2d calculateIntakePoses(
+        double x, double y, double aprilTagX, double aprilTagY, double offsetBack) {
+
+      double rotation = 54;
+      if (x > 17.548 / 2) {
+        aprilTagX = 17.548 - aprilTagX;
+        rotation = -rotation;
+      }
+      offsetBack = offsetBack / Math.sqrt(2);
+      aprilTagX = aprilTagX + offsetBack;
+      aprilTagY = aprilTagY + offsetBack;
+      double z =
+          (1 / (Math.tan(Math.toRadians(54)) + (1 / Math.tan(Math.toRadians(54)))))
+              * ((1 / Math.tan(Math.toRadians(54))) * x
+                  + y
+                  + Math.tan(Math.toRadians(54)) * aprilTagX
+                  - 0.628);
+      double w = Math.tan(Math.toRadians(54)) * (z - aprilTagX) + aprilTagY;
+
+      return new Pose2d(new Translation2d(z, w), Rotation2d.fromDegrees(54));
+    }
   }
 }
