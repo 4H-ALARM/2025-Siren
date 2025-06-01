@@ -43,7 +43,7 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
-import frc.robot.subsystems.elevator.ElevatorIONeo;
+import frc.robot.subsystems.elevator.ElevatorIOKraken;
 import frc.robot.subsystems.endeffector.ClawIOVortex;
 import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.endeffector.WristIONeo;
@@ -115,7 +115,7 @@ public class RobotContainer {
                 // new VisionIOPhotonVision(camera4Name, robotToCamera4),
                 new VisionIOLimelight(limelightName, drive::getRotation));
 
-        elevator = new Elevator(new ElevatorIONeo(), stateHandler);
+        elevator = new Elevator(new ElevatorIOKraken(), stateHandler);
 
         groundIntake = new GroundIntake(new GroundIntakeIOFalconVortex(), stateHandler);
 
@@ -144,7 +144,7 @@ public class RobotContainer {
                 // new VisionIOPhotonVisionSim(camera4Name, robotToCamera4, drive::getPose)
                 );
 
-        elevator = new Elevator(new ElevatorIONeo(), stateHandler);
+        elevator = new Elevator(new ElevatorIOKraken(), stateHandler);
 
         groundIntake = new GroundIntake(new GroundIntakeIOFalconVortex(), stateHandler);
 
@@ -174,7 +174,7 @@ public class RobotContainer {
                 new VisionIO() {},
                 new VisionIO() {});
 
-        elevator = new Elevator(new ElevatorIONeo(), stateHandler);
+        elevator = new Elevator(new ElevatorIOKraken(), stateHandler);
 
         groundIntake = new GroundIntake(new GroundIntakeIOFalconVortex(), stateHandler);
 
@@ -269,10 +269,10 @@ public class RobotContainer {
     pilot.leftTrigger().toggleOnTrue(intake);
     // pilot.leftBumper().whileTrue(deAlgifyCommandGroup);
 
-    // elevator.setDefaultCommand(
-    //     Commands.run(
-    //         () -> elevator.moveElevator(copilot.getLeftY()),
-    //         elevator)); // Set elevator to bottom position on startup
+    elevator.setDefaultCommand(
+        Commands.run(
+            () -> elevator.moveElevator(copilot.getLeftY()),
+            elevator)); // Set elevator to bottom position on startup
 
     copilot.a().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L1)));
     copilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));

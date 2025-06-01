@@ -63,8 +63,8 @@ public class RobotConstants {
   }
 
   public static class ElevatorConstants {
-    public static final int leadMotorID = 30;
-    public static final int followerMotorID = 31;
+    public static final int elevatorLeft = 30;
+    public static final int elevatorRight = 31;
     public static final int bottomlimitswitchID = 3;
     public static final int toplimitswitchID = 1;
     public static final int candi = 60;
@@ -77,7 +77,7 @@ public class RobotConstants {
     public static final BasePosition DEALGIFYLOW = new BasePosition(0.235 / 2);
     public static final BasePosition DEALGIFYHIGH = new BasePosition(0.54);
     public static final double encoderLowerLimit = 0.0;
-    public static final double encoderUpperLimit = 280.0 / 3;
+    public static final double encoderUpperLimit = 23;
     public static final double closeEnoughRange = 0.01 * ElevatorConstants.encoderUpperLimit;
   }
 
