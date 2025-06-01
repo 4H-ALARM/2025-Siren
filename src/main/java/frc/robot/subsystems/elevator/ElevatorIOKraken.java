@@ -1,9 +1,12 @@
 package frc.robot.subsystems.elevator;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import frc.lib.constants.RobotConstants;
 import frc.lib.util.BasePosition;
 import org.littletonrobotics.junction.Logger;
@@ -11,7 +14,7 @@ import org.littletonrobotics.junction.Logger;
 public class ElevatorIOKraken implements ElevatorIO {
 
   private final TalonFX leftKraken;
-  // private final TalonFX followerKraken;
+  private final TalonFX followerKraken;
 
   private PositionVoltage control;
 
@@ -25,15 +28,30 @@ public class ElevatorIOKraken implements ElevatorIO {
 
   public ElevatorIOKraken() {
 
-    Slot0Configs pidConfigs = new Slot0Configs().withKP(0.85).withKI(0.1).withKD(0);
+    Slot0Configs pidConfigs =
+        new Slot0Configs()
+            .withKP(0.85)
+            .withKI(0.1)
+            .withKD(0)
+            .withGravityType(GravityTypeValue.Elevator_Static)
+            .withKS(0.4)
+            .withKA(0.04)
+            .withKG(0.13)
+            .withKV(3.11);
+
+    MotionMagicConfigs motionMagicConfigs =
+        new MotionMagicConfigs()
+            .withMotionMagicCruiseVelocity(230)
+            .withMotionMagicAcceleration(230)
+            .withMotionMagicJerk(100);
 
     leftKraken = new TalonFX(RobotConstants.ElevatorConstants.elevatorLeft);
-    // // followerKraken = new TalonFX(RobotConstants.ElevatorConstants.elevatorRight);
+    followerKraken = new TalonFX(RobotConstants.ElevatorConstants.elevatorRight);
     leftKraken.setPosition(0);
     leftKraken.getConfigurator().apply(pidConfigs);
-    // // followerKraken.setControl(new Follower(RobotConstants.ElevatorConstants.elevatorLeft,
-    // true));
-    control = new PositionVoltage(0); // .withEnableFOC(true);
+    leftKraken.getConfigurator().apply(motionMagicConfigs);
+    followerKraken.setControl(new Follower(RobotConstants.ElevatorConstants.elevatorLeft, true));
+    control = new PositionVoltage(0).withEnableFOC(true); // .withEnableFOC(true);
 
     // limitSwitchBroke = false;
   }
