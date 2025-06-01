@@ -23,9 +23,8 @@ public class ScoreCommandGroup extends SequentialCommandGroup {
         //     new ToClosestTargetPoseCommand(
         //         drive, alignDisable,
         // frc.lib.constants.RobotConstants.GeneralConstants.reefPoses),
-        new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable) // ),
-        // new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable)
-        //     .withTimeout(1),
+        new ElevatorToChosenHeight(elevator, endEffector, stateHandler, elevatorDisable), // ),
+        new PlaceAtChosenHeight(elevator, endEffector, stateHandler, elevatorDisable).withTimeout(1)
         // // new ParallelCommandGroup(
         // //     DriveCommands.driveBackwards(drive).withTimeout(0.8),
         //     new Restingstate(elevator, endEffector, stateHandler));//

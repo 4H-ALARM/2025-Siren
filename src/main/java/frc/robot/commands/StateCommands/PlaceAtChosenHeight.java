@@ -62,10 +62,11 @@ public class PlaceAtChosenHeight extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    if (disable.get()) {
-      this.elevator.stopElevator();
-      return;
-    }
+    // if (disable.get()) {
+    //   this.elevator.stopElevator();
+    //   return;
+    // }
     this.stateHandler.setState(robotStates.RESTING);
+    this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
   }
 }

@@ -25,7 +25,7 @@ public class ElevatorIOKraken implements ElevatorIO {
 
   public ElevatorIOKraken() {
 
-    Slot0Configs pidConfigs = new Slot0Configs().withKP(0.5).withKI(0).withKD(0);
+    Slot0Configs pidConfigs = new Slot0Configs().withKP(0.5).withKI(0.1).withKD(0);
 
     leftKraken = new TalonFX(RobotConstants.ElevatorConstants.elevatorLeft);
     // // followerKraken = new TalonFX(RobotConstants.ElevatorConstants.elevatorRight);
