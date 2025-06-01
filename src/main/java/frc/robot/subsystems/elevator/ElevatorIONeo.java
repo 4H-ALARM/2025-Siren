@@ -1,5 +1,6 @@
 package frc.robot.subsystems.elevator;
 
+import com.ctre.phoenix6.hardware.CANdi;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -28,6 +29,8 @@ public class ElevatorIONeo implements ElevatorIO {
 
   private final DigitalInput bottomLimitSwitch;
   private final DigitalInput topLimitSwitch;
+
+  private final CANdi candi = new CANdi(RobotConstants.ElevatorConstants.candi);
 
   private final double encoderLowerLimit = 0.0;
   private final double encoderUpperLimit = 280.0 / 3;
@@ -78,6 +81,11 @@ public class ElevatorIONeo implements ElevatorIO {
     Logger.recordOutput("elevator/basePosition", basePosition);
     Logger.recordOutput("elevator/limitDown", bottomLimitSwitch.get());
     Logger.recordOutput("elevator/limitUp", topLimitSwitch.get());
+    if (candi.getS1Closed().getValue()) {
+      Logger.recordOutput("candi", true);
+    } else {
+      Logger.recordOutput("candi", false);
+    }
   }
 
   public void setTargetPosition(BasePosition position) {

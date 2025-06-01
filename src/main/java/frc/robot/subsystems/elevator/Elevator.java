@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.elevator;
 
+import com.ctre.phoenix6.hardware.CANdi;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -28,6 +29,8 @@ public class Elevator extends SubsystemBase {
   private TrapezoidProfile profile;
   private ElevatorFeedforward feedforward;
   private Timer profileTimer;
+
+  private final CANdi candi = new CANdi(RobotConstants.ElevatorConstants.candi);
 
   private double targetRotation;
 
@@ -115,8 +118,14 @@ public class Elevator extends SubsystemBase {
     if (stateHandler.getState().isDisabled()) {
       profileTimer.stop();
       elevator.stopElevator();
-    } else {
+    } // else if (candi.getS1Closed().getValue()) {
+    // profileTimer.stop();
+    // elevator.stopElevator();
+    // Logger.recordOutput("candi", true);
+    // }
+    else {
       profileTimer.start();
+      // Logger.recordOutput("candi", false);
     }
     // if (profileTimer.isRunning()) {
 

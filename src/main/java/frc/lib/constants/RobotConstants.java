@@ -67,6 +67,7 @@ public class RobotConstants {
     public static final int followerMotorID = 31;
     public static final int bottomlimitswitchID = 3;
     public static final int toplimitswitchID = 1;
+    public static final int candi = 60;
 
     public static final BasePosition CORAL_L1 = new BasePosition(0.0);
     public static final BasePosition CORAL_L2 = new BasePosition(0.2);
