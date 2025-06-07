@@ -71,7 +71,7 @@ public class RobotConstants {
 
     public static final BasePosition CORAL_L1 = new BasePosition(0.0);
 
-    public static final BasePosition CORAL_L2 = new BasePosition(0.21);
+    public static final BasePosition CORAL_L2 = new BasePosition(0.205);
     public static final BasePosition CORAL_L3 = new BasePosition(0.5);
     public static final BasePosition CORAL_L4 = new BasePosition(0.985);
     public static final BasePosition BOTTOM = new BasePosition(0.0);
