@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.elevator;
 
-import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.lib.util.BasePosition;
 import org.littletonrobotics.junction.AutoLog;
@@ -27,7 +26,7 @@ public interface ElevatorIO {
 
   public void stopElevator();
 
-  public RelativeEncoder getEncoder();
+  public double getEncoder();
 
   public void resetEncoder();
 

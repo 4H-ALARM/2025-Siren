@@ -79,9 +79,9 @@ public class ElevatorToChosenHeight extends Command {
     //   this.elevator.stopElevator();
     //   return;
     // }
-    // if (interrupted) {
-    //   stateHandler.setState(robotStates.RESTING);
-    //   this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
-    // }
+    if (interrupted) {
+      stateHandler.setState(robotStates.RESTING);
+      this.elevator.setTargetPosition(RobotConstants.ElevatorConstants.BOTTOM);
+    }
   }
 }

@@ -17,12 +17,12 @@ public class RobotConstants {
     public static final double maxAccel = 30;
     public static final double translationRange = 0.02;
 
-    public static final double headingP = 0.35; // 0.125 / 22;
-    public static final double headingI = 0.1;
-    public static final double headingD = 0.01;
-    public static final double maxHeadingSpeed = 2;
-    public static final double maxHeadingAccel = 100;
-    public static final double headingRange = Units.degreesToRadians(50);
+    public static final double headingP = 0.15; // 0.125 / 22;
+    public static final double headingI = 0.03;
+    public static final double headingD = 0;
+    public static final double maxHeadingSpeed = 1.5;
+    public static final double maxHeadingAccel = 3;
+    public static final double headingRange = Units.degreesToRadians(1.5);
   }
 
   public static class ClimberConstants {
@@ -63,20 +63,22 @@ public class RobotConstants {
   }
 
   public static class ElevatorConstants {
-    public static final int leadMotorID = 30;
-    public static final int followerMotorID = 31;
+    public static final int elevatorLeft = 30;
+    public static final int elevatorRight = 31;
     public static final int bottomlimitswitchID = 3;
     public static final int toplimitswitchID = 1;
+    public static final int candi = 60;
 
     public static final BasePosition CORAL_L1 = new BasePosition(0.0);
-    public static final BasePosition CORAL_L2 = new BasePosition(0.235);
+
+    public static final BasePosition CORAL_L2 = new BasePosition(0.19);
     public static final BasePosition CORAL_L3 = new BasePosition(0.47);
-    public static final BasePosition CORAL_L4 = new BasePosition(0.9725);
+    public static final BasePosition CORAL_L4 = new BasePosition(0.985);
     public static final BasePosition BOTTOM = new BasePosition(0.0);
     public static final BasePosition DEALGIFYLOW = new BasePosition(0.235 / 2);
     public static final BasePosition DEALGIFYHIGH = new BasePosition(0.54);
     public static final double encoderLowerLimit = 0.0;
-    public static final double encoderUpperLimit = 280.0 / 3;
+    public static final double encoderUpperLimit = 23.15;
     public static final double closeEnoughRange = 0.01 * ElevatorConstants.encoderUpperLimit;
   }
 
@@ -131,12 +133,12 @@ public class RobotConstants {
 
     public static boolean DEBUG = true;
 
-    public static Pose2d[] zerodeg = getCartesianCoordinates(0, 0.164, 0.4828);
-    public static Pose2d[] sixtydeg = getCartesianCoordinates(60, 0.164, 0.4828);
-    public static Pose2d[] onetwentydeg = getCartesianCoordinates(120, 0.164, 0.4828);
-    public static Pose2d[] oneeightydeg = getCartesianCoordinates(180, 0.164, 0.4828);
-    public static Pose2d[] twofourtydeg = getCartesianCoordinates(240, 0.164, 0.4828);
-    public static Pose2d[] threehundreddeg = getCartesianCoordinates(300, 0.164, 0.4828);
+    public static Pose2d[] zerodeg = getCartesianCoordinates(0, 0.164, 0.48);
+    public static Pose2d[] sixtydeg = getCartesianCoordinates(60, 0.164, 0.48);
+    public static Pose2d[] onetwentydeg = getCartesianCoordinates(120, 0.164, 0.48);
+    public static Pose2d[] oneeightydeg = getCartesianCoordinates(180, 0.164, 0.48);
+    public static Pose2d[] twofourtydeg = getCartesianCoordinates(240, 0.164, 0.48);
+    public static Pose2d[] threehundreddeg = getCartesianCoordinates(300, 0.164, 0.48);
 
     public static Pose2d[] reefPoses = {
       zerodeg[1],

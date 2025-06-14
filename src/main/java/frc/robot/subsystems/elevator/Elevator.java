@@ -4,12 +4,7 @@
 
 package frc.robot.subsystems.elevator;
 
-import edu.wpi.first.math.controller.ElevatorFeedforward;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.wpilibj.Timer;
+import com.ctre.phoenix6.hardware.CANdi;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.constants.RobotConstants;
 import frc.lib.constants.RobotConstants.ElevatorConstants;
@@ -25,29 +20,18 @@ public class Elevator extends SubsystemBase {
   private ElevatorIOInputsAutoLogged elevatorinputs;
   private final StateHandler stateHandler;
 
-  private TrapezoidProfile profile;
-  private ElevatorFeedforward feedforward;
-  private Timer profileTimer;
+  private final CANdi candi = new CANdi(RobotConstants.ElevatorConstants.candi);
 
   private double targetRotation;
 
   private BasePosition ElevatorPositionNormalized;
-  private State t0State;
 
   public Elevator(ElevatorIO elevator, StateHandler handler) {
     this.elevator = elevator;
     elevatorinputs = new ElevatorIOInputsAutoLogged();
     this.stateHandler = handler;
 
-    profile = new TrapezoidProfile(new Constraints(200, 300));
-    feedforward = new ElevatorFeedforward(0, 0.0, 0);
-    profileTimer = new Timer();
-    profileTimer.start();
-
     ElevatorPositionNormalized = new BasePosition(0.0);
-    t0State =
-        new State(
-            this.elevator.getEncoder().getPosition(), this.elevator.getEncoder().getVelocity());
   }
 
   public void setTargetPosition(BasePosition position) {
@@ -57,14 +41,9 @@ public class Elevator extends SubsystemBase {
         != position.toRange(
             RobotConstants.ElevatorConstants.encoderLowerLimit,
             RobotConstants.ElevatorConstants.encoderUpperLimit)) {
-      profileTimer.reset();
-      t0State =
-          new State(
-              this.elevator.getEncoder().getPosition(), this.elevator.getEncoder().getVelocity());
+      elevator.setTargetPosition(position);
     }
     ElevatorPositionNormalized = position;
-
-    profileTimer.start();
   }
 
   public BasePosition getBasePosition() {
@@ -77,7 +56,6 @@ public class Elevator extends SubsystemBase {
 
   public void stopElevator() {
     elevator.stopElevator();
-    profileTimer.stop();
   }
 
   public void resetEncoder() {
@@ -86,7 +64,7 @@ public class Elevator extends SubsystemBase {
 
   public boolean isCloseEnough() {
 
-    double encoderposition = elevator.getEncoder().getPosition();
+    double encoderposition = elevator.getEncoder();
 
     if (Math.abs(
             encoderposition
@@ -112,32 +90,11 @@ public class Elevator extends SubsystemBase {
     Logger.recordOutput("Elevator/state", this.stateHandler.getChosenlevel());
     elevator.periodic();
 
-    if (stateHandler.getState().isDisabled()) {
-      profileTimer.stop();
-      elevator.stopElevator();
-    } else {
-      profileTimer.start();
-    }
-    // if (profileTimer.isRunning()) {
+    // if (stateHandler.getState().isDisabled()) {
+    //   elevator.stopElevator();
+    // } // else if (candi.getS1Closed().getValue()) {
 
-    Rotation2d targetRotation =
-        Rotation2d.fromRotations(
-            profile.calculate(
-                    profileTimer.getTimestamp(),
-                    t0State,
-                    new State(
-                        ElevatorPositionNormalized.toRange(
-                            RobotConstants.ElevatorConstants.encoderLowerLimit,
-                            RobotConstants.ElevatorConstants.encoderUpperLimit),
-                        0))
-                .position);
-
-    elevator.setTargetPosition(
-        BasePosition.fromRange(
-            RobotConstants.ElevatorConstants.encoderLowerLimit,
-            RobotConstants.ElevatorConstants.encoderUpperLimit,
-            targetRotation.getRotations()));
-    // }
+    elevator.setTargetPosition(ElevatorPositionNormalized);
 
     elevator.updateInputs(elevatorinputs);
     Logger.processInputs("Elevator", elevatorinputs);
