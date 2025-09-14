@@ -17,8 +17,6 @@ import static frc.lib.constants.VisionConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.constants.SwerveConstants;
 import frc.lib.enums.LevelEnum;
-import frc.lib.enums.robotStates;
 import frc.robot.commands.CommandGroups.DeAlgifyCommand;
 import frc.robot.commands.CommandGroups.IntakeCommandGroup;
 import frc.robot.commands.CommandGroups.ScoreCommandGroup;
@@ -38,10 +35,8 @@ import frc.robot.subsystems.bargemech.bargeIONeo;
 import frc.robot.subsystems.bargemech.bargeMech;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
-import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
-import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIOKraken;
 import frc.robot.subsystems.endeffector.ClawIOVortex;
@@ -78,7 +73,7 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController pilot = new CommandXboxController(0);
-  private final CommandXboxController copilot = new CommandXboxController(1);
+  // private final CommandXboxController copilot = new CommandXboxController(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -98,13 +93,20 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
+        // drive =
+        //     new Drive(
+        //         new GyroIOPigeon2(),
+        //         new ModuleIOTalonFX(SwerveConstants.FrontLeft),
+        //         new ModuleIOTalonFX(SwerveConstants.FrontRight),
+        //         new ModuleIOTalonFX(SwerveConstants.BackLeft),
+        //         new ModuleIOTalonFX(SwerveConstants.BackRight));
         drive =
             new Drive(
-                new GyroIOPigeon2(),
-                new ModuleIOTalonFX(SwerveConstants.FrontLeft),
-                new ModuleIOTalonFX(SwerveConstants.FrontRight),
-                new ModuleIOTalonFX(SwerveConstants.BackLeft),
-                new ModuleIOTalonFX(SwerveConstants.BackRight));
+                new GyroIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {});
 
         vision =
             new Vision(
@@ -248,23 +250,23 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Default command, normal field-relative drive
 
-    drive.setDefaultCommand(
-        DriveCommands.joystickDrive(
-            drive,
-            () -> (-pilot.getLeftY()),
-            () -> (-pilot.getLeftX()),
-            () -> (pilot.getRightX())));
+    /*drive.setDefaultCommand(
+    DriveCommands.joystickDrive(
+        drive,
+        () -> (-pilot.getLeftY()),
+        () -> (-pilot.getLeftX()),
+        () -> (pilot.getRightX())));*/
 
     // Reset gyro to 0° when B button is pressed
-    pilot
-        .b()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true));
+    /*pilot
+    .b()
+    .onTrue(
+        Commands.runOnce(
+                () ->
+                    drive.setPose(
+                        new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+                drive)
+            .ignoringDisable(true));*/
 
     pilot.leftTrigger().toggleOnTrue(intake);
     // pilot.leftBumper().whileTrue(deAlgifyCommandGroup);
@@ -274,11 +276,11 @@ public class RobotContainer {
     //         () -> elevator.moveElevator(copilot.getLeftY()),
     //         elevator)); // Set elevator to bottom position on startup
 
-    copilot.a().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L1)));
-    copilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));
-    copilot.y().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L3)));
-    copilot.x().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
-    copilot
+    pilot.a().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L1)));
+    pilot.b().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L2)));
+    pilot.y().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L3)));
+    pilot.x().onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
+    /*copilot
         .leftTrigger()
         .onTrue(
             Commands.runOnce(() -> stateHandler.setState(robotStates.RESTINGPOSTDEALGIFYNOHOLD)));
@@ -287,15 +289,15 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYLOW)));
     copilot
         .rightBumper()
-        .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));
+        .onTrue(Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.DEALGIFYHIGH)));*/
 
-    copilot.povLeft().onTrue(Commands.runOnce(() -> elevatorDisable.toggle()));
-    copilot.povUp().onTrue(Commands.runOnce(() -> alignDisable.toggle()));
+    // copilot.povLeft().onTrue(Commands.runOnce(() -> elevatorDisable.toggle()));
+    // copilot.povUp().onTrue(Commands.runOnce(() -> alignDisable.toggle()));
 
     pilot.rightTrigger().whileTrue(score);
     pilot.rightBumper().onTrue(placeAtChosenHeight.withTimeout(1));
     pilot.leftBumper().whileTrue(intakeAlgae);
-    pilot.x().whileTrue(throwAlgae);
+    // pilot.x().whileTrue(throwAlgae);
   }
 
   public void addAuto(String name, Command command) {
