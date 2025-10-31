@@ -222,19 +222,17 @@ public class RobotContainer {
             elevatorDisable,
             alignDisable);
 
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    NamedCommands.registerCommand("Score", score2);
+    NamedCommands.registerCommand("Intake", intake);
+    NamedCommands.registerCommand(
+        "setL4", Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
 
-    addAuto("Score", score2);
-    addAuto("Intake", intake);
-    addAuto("setL4", Commands.runOnce(() -> stateHandler.setLevelEnum(LevelEnum.L4)));
+    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
     // Set up auto routines
     var defaultAuto = DriveCommands.driveBackwards(drive).withTimeout(5);
     autoChooser.addDefaultOption("leave", defaultAuto);
     addAuto("leave", defaultAuto);
-    addAuto("leftside1piece", AutoBuilder.buildAuto("LeftAuto"));
-    addAuto("rightside1piece", AutoBuilder.buildAuto("RightAuto"));
-    addAuto("middle1piece", AutoBuilder.buildAuto("MiddleAuto"));
 
     configureButtonBindings();
   }
