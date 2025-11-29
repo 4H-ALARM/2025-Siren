@@ -31,11 +31,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.constants.RobotConstants;
-import frc.lib.util.AllianceFlipUtil;
-import frc.lib.util.GeometryUtil;
 import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.Logger;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
@@ -187,24 +184,6 @@ public class DriveCommands {
     var speeds = new ChassisSpeeds(xOutput, yOutput, rotOutput);
 
     return Commands.run(() -> drive.runVelocity(speeds), drive);
-  }
-
-  public static Command alignToClosestNode(Drive drive) {
-    Pose2d closestpose = new Pose2d();
-    double closestDistance = 900000000;
-    for (int i = 0; i < RobotConstants.GeneralConstants.reefPoses.length; i++) {
-      Pose2d checkingPose = AllianceFlipUtil.apply(RobotConstants.GeneralConstants.reefPoses[i]);
-      double distance =
-          GeometryUtil.toTransform2d(drive.getPose())
-              .getTranslation()
-              .getDistance(GeometryUtil.toTransform2d(checkingPose).getTranslation());
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestpose = checkingPose;
-      }
-    }
-    Logger.recordOutput("command/targetpose", closestpose);
-    return alignToPose(drive, closestpose);
   }
 
   public static Command alignToPose(Drive drive, Pose2d target) {

@@ -4,7 +4,6 @@
 
 package frc.lib.util;
 
-import frc.lib.constants.RobotConstants;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +50,7 @@ public class LoggedTunableNumber implements DoubleSupplier {
     if (!hasDefault) {
       hasDefault = true;
       this.defaultValue = defaultValue;
-      if (RobotConstants.GeneralConstants.DEBUG) {
+      if (false) { // RobotConstants.GeneralConstants.DEBUG
         dashboardNumber = new LoggedNetworkNumber(key, defaultValue);
       }
     }
@@ -66,7 +65,7 @@ public class LoggedTunableNumber implements DoubleSupplier {
     if (!hasDefault) {
       return 0.0;
     } else {
-      return RobotConstants.GeneralConstants.DEBUG ? dashboardNumber.get() : defaultValue;
+      return 1.0; // RobotConstants.GeneralConstants.DEBUG ? dashboardNumber.get() : defaultValue;
     }
   }
 
