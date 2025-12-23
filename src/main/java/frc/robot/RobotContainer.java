@@ -49,6 +49,7 @@ import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.endeffector.WristIONeo;
 import frc.robot.subsystems.groundintake.GroundIntake;
 import frc.robot.subsystems.groundintake.GroundIntakeIOFalconVortex;
+import frc.robot.subsystems.groundintake.GroundIntakeIOSim;
 import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
@@ -146,7 +147,7 @@ public class RobotContainer {
 
         elevator = new Elevator(new ElevatorIOKraken(), stateHandler);
 
-        groundIntake = new GroundIntake(new GroundIntakeIOFalconVortex(), stateHandler);
+        groundIntake = new GroundIntake(new GroundIntakeIOSim(), stateHandler);
 
         endEffector = new EndEffector(new ClawIOVortex(), new WristIONeo(), stateHandler);
 

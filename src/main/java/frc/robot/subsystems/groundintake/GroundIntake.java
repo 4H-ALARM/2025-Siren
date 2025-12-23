@@ -10,15 +10,18 @@ import frc.robot.subsystems.virtualsubsystems.statehandler.StateHandler;
 public class GroundIntake extends SubsystemBase {
   private final StateHandler stateHandler;
   private final GroundIntakeIO gi;
+  private final GroundIntakeIOInputsAutoLogged inputs;
   /** Creates a new GroundIntake. */
   public GroundIntake(GroundIntakeIO groundintakeimpl, StateHandler handler) {
     this.stateHandler = handler;
     this.gi = groundintakeimpl;
+    this.inputs = new GroundIntakeIOInputsAutoLogged();
   }
 
   @Override
   public void periodic() {
     this.gi.setAngle(stateHandler.getState().getGroundIntakeRot());
     this.gi.setSpeed(stateHandler.getState().getGroundIntakeSpeed());
+    this.gi.updateInputs(inputs);
   }
 }
